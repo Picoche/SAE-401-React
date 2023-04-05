@@ -150,7 +150,7 @@ function ResponsiveAppBar() {
                 Devenir commerçant
               </Button>
             </Link>
-            <Link to={"/inscription"}>
+            <Link to={"/login"}>
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "black", display: "block" }}

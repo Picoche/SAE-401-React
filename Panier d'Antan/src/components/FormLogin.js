@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,13 +14,29 @@ import Container from "@mui/material/Container";
 import { Link } from "react-router-dom";
 
 export default function SignIn() {
+  const [user, setUser] = useState({});
+
+  const updateData = (event) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("mail"),
-      password: data.get("MDP"),
-    });
+    console.log(user);
+    fetch("https://panier-antan.mmicastres.fr/api/connexion", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
 
   return (
@@ -49,6 +65,7 @@ export default function SignIn() {
             name="mail"
             autoComplete="mail"
             autoFocus
+            onChange={updateData}
           />
           <TextField
             margin="normal"
@@ -59,6 +76,7 @@ export default function SignIn() {
             type="password"
             id="MDP"
             autoComplete="current-password"
+            onChange={updateData}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
