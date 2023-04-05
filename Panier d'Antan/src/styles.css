@@ -1,0 +1,61 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+@font-face {
+  font-family: "Unbounded-Regular";
+  src: local("Unbounded-Regular"),
+    url(./Unbounded-Regular.ttf) format("truetype");
+}
+
+a {
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
+}
+
+#h2AccueilNC {
+  font-family: Unbounded-Regular;
+  text-align: center;
+}
+
+.divAccueilNC {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.blocAccueilNC {
+  text-align: left;
+}
+
+.imgAccueilNC {
+  height: 250px;
+  width: 250px;
+}
+
+.logo {
+  height: 70px;
+  width: 70px;
+}
+
+#supportImg {
+  height: 30px;
+  width: 30px;
+}
+
+.button {
+  border-radius: 50%;
+}
+
+.blocDevComNC {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.h2DevComNC {
+  text-align: left;
+}
