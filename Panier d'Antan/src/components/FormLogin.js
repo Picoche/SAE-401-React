@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,33 +11,47 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
+import UserContext from "../UserContext";
+
 import { Link } from "react-router-dom";
 
 export default function SignIn() {
+  const { userContext, setUserContext } = useContext(UserContext);
+
+  const [data, setData] = useState({});
+
   const [user, setUser] = useState({});
 
   const updateData = (event) => {
-    setUser({
-      ...user,
+    setData({
+      ...data,
       [event.target.name]: event.target.value,
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user);
+    console.log(data);
     fetch("https://panier-antan.mmicastres.fr/api/connexion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        if (data.status === 1) {
+          setUser(data.user);
+        }
       });
   };
+
+  useEffect(() => {
+    console.log(user);
+    setUserContext(user);
+  }, [user]);
 
   return (
     <Container component="main" maxWidth="xs">
