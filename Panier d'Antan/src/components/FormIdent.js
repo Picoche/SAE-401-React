@@ -36,6 +36,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const userContext = useContext(UserContext);
+  console.log(userContext);
+
   const [user, setUser] = useState({});
 
   const updateData = (event) => {
@@ -200,6 +203,7 @@ export default function SignUp() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
+      <Typography>{userContext.userContext.id_user}</Typography>
     </ThemeProvider>
   );
 }

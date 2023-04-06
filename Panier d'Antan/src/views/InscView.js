@@ -1,5 +1,6 @@
 import FormInsc from "../components/FormIdent";
-import React from "react";
+import React, { useContext } from "react";
+import Typography from "@mui/material/Typography";
 
 export default function InscView() {
   return (

@@ -20,8 +20,6 @@ export default function SignIn() {
 
   const [data, setData] = useState({});
 
-  const [user, setUser] = useState({});
-
   const updateData = (event) => {
     setData({
       ...data,
@@ -43,15 +41,14 @@ export default function SignIn() {
       .then((data) => {
         console.log(data);
         if (data.status === 1) {
-          setUser(data.user);
+          setUserContext(data.user);
         }
       });
   };
 
   useEffect(() => {
-    console.log(user);
-    setUserContext(user);
-  }, [user]);
+    console.log(userContext);
+  }, [userContext]);
 
   return (
     <Container component="main" maxWidth="xs">
