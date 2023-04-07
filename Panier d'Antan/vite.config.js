@@ -9,6 +9,8 @@ export default defineConfig(() => ({
     jsxFactory: 'React.createElement',
   jsxFragment: 'React.Fragment',
     loader: "jsx",
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
     include: /src\/.*\.jsx?$/,
     // loader: "tsx",
     // include: /src\/.*\.[tj]sx?$/,
