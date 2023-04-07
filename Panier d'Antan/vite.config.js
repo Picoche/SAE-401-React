@@ -5,6 +5,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(() => ({
   esbuild: {
     loader: "jsx",
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
     include: /src\/.*\.jsx?$/,
     // loader: "tsx",
     // include: /src\/.*\.[tj]sx?$/,
