@@ -13,7 +13,7 @@ import ProduitView from "./views/ProduitView";
 import DispoView from "./views/DispoView";
 import ProfileView from "./views/ProfileView";
 import AccountView from "./views/AccountView";
-import DashboardView from "./views/DashboardView";
+import MapView from "./views/MapView";
 import LogoutView from "./views/LogoutView";
 import Typography from "@mui/material/Typography";
 
@@ -22,7 +22,19 @@ import UserContext from "./UserContext";
 import Container from "@mui/material/Container";
 
 export default function App() {
-  const [userContext, setUserContext] = useState({});
+  const [userContext, setUserContext] = useState({
+    MDP: "99211794b7f9b20ea56632d3c7da44a6",
+    administrateur: 1,
+    adresse: "18 rue Croix de Fournès, 81100 Castres",
+    commercant: 1,
+    date_insc: "2023-03-14",
+    id_user: 1729764896,
+    image_profil: null,
+    mail: "hombert.fabien@gmail.com",
+    nom_user: "Hombert",
+    prenom_user: "Fabien",
+    pseudo: "Picoche",
+  });
   const user = { userContext, setUserContext };
 
   useEffect(() => {
@@ -47,7 +59,7 @@ export default function App() {
               <Route path="/produit" element={<ProduitView />} />
               <Route path="/profil" element={<ProfileView />} />
               <Route path="/account" element={<AccountView />} />
-              <Route path="/dashboard" element={<DashboardView />} />
+              <Route path="/boutiques" element={<MapView />} />
               <Route path="/logout" element={<LogoutView />} />
             </Routes>
           </UserContext.Provider>

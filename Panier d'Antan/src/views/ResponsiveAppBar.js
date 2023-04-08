@@ -215,8 +215,8 @@ function ResponsiveAppBar() {
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
-                <Link to={"/dashboard"}>
-                  <Typography textAlign="center">Dashboard</Typography>
+                <Link to={"/boutiques"}>
+                  <Typography textAlign="center">Boutiques</Typography>
                 </Link>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>

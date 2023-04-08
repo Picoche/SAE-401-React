@@ -1,9 +1,11 @@
 import React from "react";
+import Map from "../components/Map";
 
 export default function DashboardView() {
   return (
     <div>
-      <h3>Tableau de bord</h3>
+      <h3>Carte interactive</h3>
+      <Map />
     </div>
   );
 }
