@@ -30,8 +30,50 @@ function MapParams({ position, zoom }) {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
+      <MapMarkers />
     </MapContainer>
   );
+}
+
+function MapMarkers() {
+  const [markerPosition, setMarkerPosition] = useState([]);
+  const [boutiques, setBoutiques] = useState([]);
+
+  const provider = new OpenStreetMapProvider({
+    params: {
+      email: "hombert.fabien@gmail.com",
+    },
+  });
+
+  const getBoutiques = () => {
+    fetch("http://panier-antan.mmicastres.fr/api/boutiques")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setBoutiques(data);
+        data.forEach((boutique) => {
+          provider
+            .search({ query: boutique.adresse_boutique })
+            .then((result) => {
+              console.log(result);
+              setMarkerPosition(
+                { id_boutique: boutique.id_boutique },
+                { position: [result[0].y, result[0].x] }
+              );
+            });
+        });
+      });
+  };
+
+  useEffect(() => {
+    getBoutiques();
+  }, []);
+
+  return markerPosition.map((marker) => {
+    return (
+      <Marker position={marker.position} key={marker.id_boutique}></Marker>
+    );
+  });
 }
 
 export default function Map() {
@@ -40,7 +82,11 @@ export default function Map() {
   const [position, setPosition] = useState([43.604652, 1.444209]);
   const [zoom, setZoom] = useState(13);
 
-  const provider = new OpenStreetMapProvider();
+  const provider = new OpenStreetMapProvider({
+    params: {
+      email: "hombert.fabien@gmail.com",
+    },
+  });
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -63,12 +109,12 @@ export default function Map() {
   }, [coords]);
 
   return !isGeolocationAvailable ? (
-    <div>Your browser does not support Geolocation</div>
+    <div>Votre navigateur ne supporte pas la géolocalisation</div>
   ) : !isGeolocationEnabled ? (
-    <div>Geolocation is not enabled</div>
+    <div>Veuillez activer la géolocalisation</div>
   ) : coords ? (
     <MapParams position={position} zoom={zoom} />
   ) : (
-    <div>Getting the location data&hellip; </div>
+    <div>En attente des données de géolocalisation&hellip; </div>
   );
 }
