@@ -68,27 +68,29 @@ function BuildMap({ position, zoom, boutiques }) {
   const [markers, setMarkers] = useState([]);
 
   useEffect(() => {
-    const url = "https://api.geocodify.com/v2/geocode?api_key=";
-    const apiKey = "4cdfd72e4860b817f9279f98e9d41f271fa9793b&q=";
-
-    const getMarkers = () => {
-      boutiques.forEach((boutique) => {
-        fetch(url + apiKey + boutique.adresse_boutique).then((response) => {
-          response.json().then((data) => {
-            setMarkers((prevMarkers) => [
-              ...prevMarkers,
-              {
-                info: {
-                  boutique,
-                },
-                position: [data.response.bbox[1], data.response.bbox[0]],
-              },
-            ]);
-          });
-        });
-      });
+    const getMarkers = async () => {
+      const newMarkers = await Promise.all(
+        boutiques.map(async (boutique) => {
+          const response = await fetch(
+            `http://localhost:4000/boutiques/places?input=${boutique.adresse_boutique}`
+          );
+          const data = await response.json();
+          console.log(data);
+          return {
+            info: {
+              boutique,
+              rating: data.rating,
+              place_id: data.candidates[0].place_id,
+            },
+            position: [
+              data.candidates[0].geometry.location.lat,
+              data.candidates[0].geometry.location.lng,
+            ],
+          };
+        })
+      );
+      setMarkers(newMarkers);
     };
-
     getMarkers();
   }, [boutiques]);
 
@@ -107,13 +109,46 @@ function BuildMap({ position, zoom, boutiques }) {
       {markers.map((marker, index) => (
         <Marker position={marker.position} key={index}>
           <Popup>
-            <h3>{marker.info.boutique.nom_boutique}</h3>
+            <h3>{marker.info.place_id}</h3>
           </Popup>
         </Marker>
       ))}
     </MapContainer>
   );
 }
+// useEffect(() => {
+//   const getMarkers = () => {
+//     boutiques.forEach((boutique) => {
+//       const address = encodeURIComponent(boutique.adresse_boutique);
+//       const apiKey = "AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY";
+//       // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
+//       const url = `http://localhost:5173/places?input=${boutique.adresse_boutique}`;
+
+//       // const url = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${address}&inputtype=textquery&fields=formatted_address,name,rating,place_id,geometry&key=${apiKey}&libraries=places&language=fr`;
+//       fetch(url, { mode: "cors" }).then((response) => {
+//         response.json().then((data) => {
+//           console.log(data);
+//           setMarkers((prevMarkers) => [
+//             ...prevMarkers,
+//             {
+//               info: {
+//                 boutique,
+//               },
+//               position: [
+//                 data.candidates[0].geometry.location.lat,
+//                 data.candidates[0].geometry.location.lng,
+//               ],
+//               noteGlobale: data.candidates[0].rating,
+//             },
+//           ]);
+//         });
+//       });
+//     });
+//   };
+
+//   getMarkers();
+// }, [boutiques]);
 
 // function Markers({ boutiques }) {
 //   const [markers, setMarkers] = useState([]);
