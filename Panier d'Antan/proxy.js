@@ -28,11 +28,11 @@ app.get("/boutiques/places/details", async (req, res) => {
 
 app.get("/boutiques/places/photo", async (req, res) => {
   const { photoreference } = req.query;
-  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY`;
+  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY
+  `;
   try {
     const response = await fetch(url);
-    const json = await response.json();
-    res.json(json);
+    res.send(response.body);
     console.log(url);
   } catch (error) {
     console.log(url);

@@ -7,10 +7,11 @@ import Button from "@mui/material/Button";
 
 import UserContext from "../UserContext";
 
-const BOUTIQUES_PLACES_URL = "http://localhost:4000/boutiques/places?input=";
+const GET_LOCATION_URL = "http://localhost:4000/boutiques/places?input=";
 const BOUTIQUES_DETAILS_URL =
   "http://localhost:4000/boutiques/places/details?place_id=";
-const BOUTIQUE_PHOTOS_URL = "http://localhost:4000/boutiques/places/photos?";
+const BOUTIQUE_PHOTOS_URL =
+  "http://localhost:4000/boutiques/places/photo?photoreference=";
 
 function SetMapView({ userPosition, zoom }) {
   const map = useMap();
@@ -54,9 +55,13 @@ export default function Map() {
 
   useEffect(() => {
     if (coords) {
-      fetch(url + apiKey + userContext.adresse).then((response) => {
+      fetch(`${GET_LOCATION_URL}${userContext.adresse}`).then((response) => {
         response.json().then((data) => {
-          setUserPosition([data.response.bbox[1], data.response.bbox[0]]);
+          console.log(data.candidates);
+          setUserPosition([
+            data.candidates[0].geometry.location.lat,
+            data.candidates[0].geometry.location.lng,
+          ]);
           console.log(userPosition);
         });
       });
@@ -95,7 +100,7 @@ function BuildMap({
       const newPlacesId = await Promise.allSettled(
         boutiquesPosition.map(async (boutique) => {
           const response = await fetch(
-            `${BOUTIQUES_PLACES_URL}${boutique.adresse_boutique}+${boutique.nom_boutique}`
+            `${GET_LOCATION_URL}${boutique.adresse_boutique}+${boutique.nom_boutique}`
           );
           const data = await response.json();
           if (data.candidates) {
@@ -138,7 +143,6 @@ function BuildMap({
             ratingNumber: data.result.user_ratings_total,
             hours: data.result.opening_hours,
             reviews: data.result.reviews,
-            name: data.result.name,
             address: data.result.address_components,
             photos: data.result.photos,
             infoSupp: place.info,
@@ -171,7 +175,7 @@ function BuildMap({
         {detailsBoutiques.map((details, index) => (
           <Marker position={details.position} key={index}>
             <Popup>
-              <h3>{details.name}</h3>
+              <h3>{details.infoSupp.nom_boutique}</h3>
               <div style={styles.popupRating}>
                 <Rating
                   name="read-only"
@@ -202,24 +206,45 @@ function BuildMap({
 }
 
 function CarteBoutique({ boutique }) {
-  const [photosBoutiques, setPhotosBoutiques] = useState("");
-  console.log(boutique.photos[0].photo_reference);
+  const [photosBoutiques, setPhotosBoutiques] = useState(null);
+
+  const fetchPhotos = useCallback(async () => {
+    if (boutique.photos && boutique.photos.length > 0) {
+      const photoReference = boutique.photos[0].photo_reference;
+      const photoUrl = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY`;
+      setPhotosBoutiques(photoUrl);
+    }
+  }, [boutique, setPhotosBoutiques]);
+
+  // "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
+  //   boutique.photos[0].photo_reference +
+  //   "&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY";
 
   useEffect(() => {
-    setPhotosBoutiques(
-      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
-        boutique.photos[0].photo_reference +
-        "&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY"
-    );
-  }, [boutique]);
+    fetchPhotos();
+    console.log(photosBoutiques);
+  }, [fetchPhotos]);
 
   return (
     <div>
-      <h3>{boutique.name}</h3>
+      <h3>{boutique.infoSupp.nom_boutique}</h3>
       <img src={photosBoutiques}></img>
     </div>
   );
 }
+
+const styles = {
+  voirBoutiqueBtn: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  popupRating: {
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
+  },
+};
 
 // function CarteBoutique({ boutique }) {
 //   const [photosBoutiques, setPhotosBoutiques] = useState("");
@@ -253,20 +278,6 @@ function CarteBoutique({ boutique }) {
 //     </div>
 //   );
 // }
-
-const styles = {
-  container: {},
-  voirBoutiqueBtn: {
-    display: "flex",
-    justifyContent: "center",
-    marginTop: 10,
-  },
-  popupRating: {
-    display: "flex",
-    justifyContent: "start",
-    alignItems: "center",
-  },
-};
 // useEffect(() => {
 //   const getMarkers = () => {
 //     boutiques.forEach((boutique) => {
