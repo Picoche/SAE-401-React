@@ -2,20 +2,22 @@ import React, { useState, useEffect, useContext } from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useGeolocated } from "react-geolocated";
+import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
 
 import UserContext from "../UserContext";
 
-function SetMapView({ position, zoom }) {
+function SetMapView({ userPosition, zoom }) {
   const map = useMap();
-  map.setView(position, zoom);
+  map.setView(userPosition, zoom);
   return null;
 }
 
 export default function Map() {
   const { userContext } = useContext(UserContext);
 
-  const [boutiques, setBoutiques] = useState([]);
-  const [position, setPosition] = useState([43.604652, 1.444209]);
+  const [boutiquesPosition, setBoutiquesPosition] = useState([]);
+  const [userPosition, setUserPosition] = useState([43.604652, 1.444209]);
   const [zoom, setZoom] = useState(13);
 
   const url = "https://api.geocodify.com/v2/geocode?api_key=";
@@ -34,7 +36,7 @@ export default function Map() {
     fetch("http://panier-antan.mmicastres.fr/api/boutiques")
       .then((response) => response.json())
       .then((data) => {
-        setBoutiques(data);
+        setBoutiquesPosition(data);
       });
   };
 
@@ -42,11 +44,11 @@ export default function Map() {
     if (coords) {
       fetch(url + apiKey + userContext.adresse).then((response) => {
         response.json().then((data) => {
-          setPosition([data.response.bbox[1], data.response.bbox[0]]);
+          setUserPosition([data.response.bbox[1], data.response.bbox[0]]);
         });
       });
     }
-    console.log(position);
+    console.log(userPosition);
   }, [coords]);
 
   useEffect(() => {
@@ -58,45 +60,70 @@ export default function Map() {
   ) : !isGeolocationEnabled ? (
     <div>Veuillez activer la géolocalisation</div>
   ) : coords ? (
-    <BuildMap position={position} zoom={zoom} boutiques={boutiques} />
+    <BuildMap
+      userPosition={userPosition}
+      zoom={zoom}
+      boutiquesPosition={boutiquesPosition}
+    />
   ) : (
     <div>En attente des données de géolocalisation&hellip; </div>
   );
 }
 
-function BuildMap({ position, zoom, boutiques }) {
-  const [markers, setMarkers] = useState([]);
+function BuildMap({ userPosition, zoom, boutiquesPosition }) {
+  const [placesid, setPlacesId] = useState([]);
+  const [detailsBoutiques, setDetailsBoutiques] = useState([]);
 
   useEffect(() => {
-    const getMarkers = async () => {
-      const newMarkers = await Promise.all(
-        boutiques.map(async (boutique) => {
+    const getPlacesId = async () => {
+      const newPlacesId = await Promise.all(
+        boutiquesPosition.map(async (boutique) => {
           const response = await fetch(
-            `http://localhost:4000/boutiques/places?input=${boutique.adresse_boutique}`
+            `http://localhost:4000/boutiques/places?input=${boutique.adresse_boutique}+${boutique.nom_boutique}`
+          );
+          const data = await response.json();
+          return {
+            place_id: data.candidates[0].place_id,
+            info: boutique,
+          };
+        })
+      );
+      setPlacesId(newPlacesId);
+    };
+    getPlacesId();
+  }, [boutiquesPosition]);
+
+  useEffect(() => {
+    const getDetailsBoutiques = async () => {
+      const newDetailsBoutiques = await Promise.all(
+        placesid.map(async (place) => {
+          const response = await fetch(
+            `http://localhost:4000/boutiques/places/details?place_id=${place.place_id}`
           );
           const data = await response.json();
           console.log(data);
           return {
-            info: {
-              boutique,
-              rating: data.rating,
-              place_id: data.candidates[0].place_id,
-            },
             position: [
-              data.candidates[0].geometry.location.lat,
-              data.candidates[0].geometry.location.lng,
+              data.result.geometry.location.lat,
+              data.result.geometry.location.lng,
             ],
+            rating: data.result.rating,
+            ratingNumber: data.result.user_ratings_total,
+            hours: data.result.opening_hours,
+            reviews: data.result.reviews,
+            name: data.result.name,
+            address: data.result.address_components,
           };
         })
       );
-      setMarkers(newMarkers);
+      setDetailsBoutiques(newDetailsBoutiques);
     };
-    getMarkers();
-  }, [boutiques]);
+    getDetailsBoutiques();
+  }, [placesid]);
 
   return (
     <MapContainer
-      center={position}
+      center={userPosition}
       zoom={zoom}
       scrollWheelZoom={true}
       style={{ height: 500 }}
@@ -105,17 +132,47 @@ function BuildMap({ position, zoom, boutiques }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <SetMapView position={position} zoom={zoom} />
-      {markers.map((marker, index) => (
-        <Marker position={marker.position} key={index}>
+      <SetMapView userPosition={userPosition} zoom={zoom} />
+      {detailsBoutiques.map((details, index) => (
+        <Marker position={details.position} key={index}>
           <Popup>
-            <h3>{marker.info.place_id}</h3>
+            <h3>{details.name}</h3>
+            <div style={styles.popupRating}>
+              <Rating
+                name="read-only"
+                value={details.rating}
+                precision={0.5}
+                readOnly
+              />
+              <span>({details.ratingNumber})</span>
+            </div>
+            <Button
+              style={styles.voirBoutiqueBtn}
+              variant="contained"
+              size="small"
+            >
+              Voir la boutique
+            </Button>
           </Popup>
         </Marker>
       ))}
     </MapContainer>
   );
 }
+
+const styles = {
+  container: {},
+  voirBoutiqueBtn: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  popupRating: {
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
+  },
+};
 // useEffect(() => {
 //   const getMarkers = () => {
 //     boutiques.forEach((boutique) => {
