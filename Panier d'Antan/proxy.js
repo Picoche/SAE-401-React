@@ -26,15 +26,18 @@ app.get("/boutiques/places/details", async (req, res) => {
   res.json(json);
 });
 
-app.get("boutiques/place/photo", async (req, res) => {
-  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${req.query.photo_reference}
-  &key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY`;
-  const response = await fetch(url);
-  const json = await response.json();
-  console.log(json);
-  console.log(url);
-  console.log(req.query.photo_reference);
-  res.json(json);
+app.get("/boutiques/places/photo", async (req, res) => {
+  const { photoreference } = req.query;
+  const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoreference}&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY`;
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    res.json(json);
+    console.log(url);
+  } catch (error) {
+    console.log(url);
+    console.error(error);
+  }
 });
 
 app.listen(4000, () => {

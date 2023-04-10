@@ -10,6 +10,7 @@ import UserContext from "../UserContext";
 const BOUTIQUES_PLACES_URL = "http://localhost:4000/boutiques/places?input=";
 const BOUTIQUES_DETAILS_URL =
   "http://localhost:4000/boutiques/places/details?place_id=";
+const BOUTIQUE_PHOTOS_URL = "http://localhost:4000/boutiques/places/photos?";
 
 function SetMapView({ userPosition, zoom }) {
   const map = useMap();
@@ -90,7 +91,6 @@ function BuildMap({
   const [mapSelected, isMapSelected] = useState(false);
 
   useEffect(() => {
-    // Refactored the getPlacesId function to use Promise.allSettled instead of Promise.all
     const getPlacesId = async () => {
       const newPlacesId = await Promise.allSettled(
         boutiquesPosition.map(async (boutique) => {
@@ -121,7 +121,6 @@ function BuildMap({
     getPlacesId();
   }, [boutiquesPosition]);
 
-  // Refactored the getDetailsBoutiques function to use Promise.allSettled instead of Promise.all
   const getDetailsBoutiques = async (placesid) => {
     const newDetailsBoutiques = await Promise.allSettled(
       placesid.map(async (place) => {
@@ -149,7 +148,7 @@ function BuildMap({
         }
       })
     );
-    // Filter out any null values returned by the Promise.allSettled function
+
     const filteredDetailsBoutiques = newDetailsBoutiques
       .filter((detail) => detail.status === "fulfilled")
       .map((detail) => detail.value);
@@ -221,6 +220,39 @@ function CarteBoutique({ boutique }) {
     </div>
   );
 }
+
+// function CarteBoutique({ boutique }) {
+//   const [photosBoutiques, setPhotosBoutiques] = useState("");
+
+//   useEffect(() => {
+//     async function fetchPhoto() {
+//       try {
+//         const response = await fetch(
+//           `${BOUTIQUES_PHOTOS_URL}${boutique.photos[0].photo_reference}}`
+//         );
+//         if (!response.ok) {
+//           throw new Error("Failed to fetch photo");
+//         }
+//         const blob = await response.blob();
+//         setPhotosBoutiques(URL.createObjectURL(blob));
+//       } catch (error) {
+//         console.error(error);
+//       }
+//     }
+//     fetchPhoto();
+//   }, [boutique]);
+
+//   return (
+//     <div>
+//       <h3>{boutique.name}</h3>
+//       {photosBoutiques ? (
+//         <img src={photosBoutiques} alt={`photo of ${boutique.name}`} />
+//       ) : (
+//         <p>Loading...</p>
+//       )}
+//     </div>
+//   );
+// }
 
 const styles = {
   container: {},
