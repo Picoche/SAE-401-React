@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useGeolocated } from "react-geolocated";
@@ -6,6 +6,10 @@ import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 
 import UserContext from "../UserContext";
+
+const BOUTIQUES_PLACES_URL = "http://localhost:4000/boutiques/places?input=";
+const BOUTIQUES_DETAILS_URL =
+  "http://localhost:4000/boutiques/places/details?place_id=";
 
 function SetMapView({ userPosition, zoom }) {
   const map = useMap();
@@ -15,10 +19,14 @@ function SetMapView({ userPosition, zoom }) {
 
 export default function Map() {
   const { userContext } = useContext(UserContext);
-
+  const [selectedBoutique, setSelectedBoutique] = useState([]);
   const [boutiquesPosition, setBoutiquesPosition] = useState([]);
   const [userPosition, setUserPosition] = useState([43.604652, 1.444209]);
   const [zoom, setZoom] = useState(13);
+
+  const handleBoutiqueSelect = useCallback((boutique) => {
+    setSelectedBoutique(boutique);
+  }, []);
 
   const url = "https://api.geocodify.com/v2/geocode?api_key=";
   const apiKey = "4cdfd72e4860b817f9279f98e9d41f271fa9793b&q=";
@@ -32,28 +40,27 @@ export default function Map() {
       userDecisionTimeout: 5000,
     });
 
-  const getBoutiques = () => {
-    fetch("http://panier-antan.mmicastres.fr/api/boutiques")
-      .then((response) => response.json())
-      .then((data) => {
-        setBoutiquesPosition(data);
-      });
-  };
+  useEffect(() => {
+    const getBoutiques = () => {
+      fetch("http://panier-antan.mmicastres.fr/api/boutiques")
+        .then((response) => response.json())
+        .then((data) => {
+          setBoutiquesPosition(data);
+        });
+    };
+    getBoutiques();
+  }, []);
 
   useEffect(() => {
     if (coords) {
       fetch(url + apiKey + userContext.adresse).then((response) => {
         response.json().then((data) => {
           setUserPosition([data.response.bbox[1], data.response.bbox[0]]);
+          console.log(userPosition);
         });
       });
     }
-    console.log(userPosition);
-  }, [coords]);
-
-  useEffect(() => {
-    getBoutiques();
-  }, []);
+  }, [coords, userContext.adresse, url, apiKey]);
 
   return !isGeolocationAvailable ? (
     <div>Votre navigateur ne supporte pas la géolocalisation</div>
@@ -64,44 +71,65 @@ export default function Map() {
       userPosition={userPosition}
       zoom={zoom}
       boutiquesPosition={boutiquesPosition}
+      handleBoutiqueSelect={handleBoutiqueSelect}
+      selectedBoutique={selectedBoutique}
     />
   ) : (
     <div>En attente des données de géolocalisation&hellip; </div>
   );
 }
 
-function BuildMap({ userPosition, zoom, boutiquesPosition }) {
-  const [placesid, setPlacesId] = useState([]);
+function BuildMap({
+  userPosition,
+  zoom,
+  boutiquesPosition,
+  handleBoutiqueSelect,
+  selectedBoutique,
+}) {
   const [detailsBoutiques, setDetailsBoutiques] = useState([]);
+  const [mapSelected, isMapSelected] = useState(false);
 
   useEffect(() => {
+    // Refactored the getPlacesId function to use Promise.allSettled instead of Promise.all
     const getPlacesId = async () => {
-      const newPlacesId = await Promise.all(
+      const newPlacesId = await Promise.allSettled(
         boutiquesPosition.map(async (boutique) => {
           const response = await fetch(
-            `http://localhost:4000/boutiques/places?input=${boutique.adresse_boutique}+${boutique.nom_boutique}`
+            `${BOUTIQUES_PLACES_URL}${boutique.adresse_boutique}+${boutique.nom_boutique}`
           );
           const data = await response.json();
-          return {
-            place_id: data.candidates[0].place_id,
-            info: boutique,
-          };
+          if (data.candidates) {
+            return {
+              place_id: data.candidates[0].place_id,
+              info: boutique,
+            };
+          } else {
+            return null;
+          }
         })
       );
-      setPlacesId(newPlacesId);
+      // Filter out any null values returned by the Promise.allSettled function
+      const filteredPlacesId = newPlacesId
+        .filter((place) => place.status === "fulfilled")
+        .map((place) => place.value);
+      setDetailsBoutiques([]);
+      // Only call getDetailsBoutiques if there are places to get details for
+      if (filteredPlacesId.length > 0) {
+        getDetailsBoutiques(filteredPlacesId);
+      }
     };
     getPlacesId();
   }, [boutiquesPosition]);
 
-  useEffect(() => {
-    const getDetailsBoutiques = async () => {
-      const newDetailsBoutiques = await Promise.all(
-        placesid.map(async (place) => {
-          const response = await fetch(
-            `http://localhost:4000/boutiques/places/details?place_id=${place.place_id}`
-          );
-          const data = await response.json();
-          console.log(data);
+  // Refactored the getDetailsBoutiques function to use Promise.allSettled instead of Promise.all
+  const getDetailsBoutiques = async (placesid) => {
+    const newDetailsBoutiques = await Promise.allSettled(
+      placesid.map(async (place) => {
+        const response = await fetch(
+          `${BOUTIQUES_DETAILS_URL}${place.place_id}`
+        );
+        const data = await response.json();
+        if (data.result) {
           return {
             position: [
               data.result.geometry.location.lat,
@@ -113,50 +141,84 @@ function BuildMap({ userPosition, zoom, boutiquesPosition }) {
             reviews: data.result.reviews,
             name: data.result.name,
             address: data.result.address_components,
+            photos: data.result.photos,
+            infoSupp: place.info,
           };
-        })
-      );
-      setDetailsBoutiques(newDetailsBoutiques);
-    };
-    getDetailsBoutiques();
-  }, [placesid]);
+        } else {
+          return null;
+        }
+      })
+    );
+    // Filter out any null values returned by the Promise.allSettled function
+    const filteredDetailsBoutiques = newDetailsBoutiques
+      .filter((detail) => detail.status === "fulfilled")
+      .map((detail) => detail.value);
+    setDetailsBoutiques(filteredDetailsBoutiques);
+  };
 
   return (
-    <MapContainer
-      center={userPosition}
-      zoom={zoom}
-      scrollWheelZoom={true}
-      style={{ height: 500 }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <SetMapView userPosition={userPosition} zoom={zoom} />
-      {detailsBoutiques.map((details, index) => (
-        <Marker position={details.position} key={index}>
-          <Popup>
-            <h3>{details.name}</h3>
-            <div style={styles.popupRating}>
-              <Rating
-                name="read-only"
-                value={details.rating}
-                precision={0.5}
-                readOnly
-              />
-              <span>({details.ratingNumber})</span>
-            </div>
-            <Button
-              style={styles.voirBoutiqueBtn}
-              variant="contained"
-              size="small"
-            >
-              Voir la boutique
-            </Button>
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
+    <div>
+      <MapContainer
+        center={userPosition}
+        zoom={zoom}
+        scrollWheelZoom={true}
+        style={{ height: 500 }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <SetMapView userPosition={userPosition} zoom={zoom} />
+        {detailsBoutiques.map((details, index) => (
+          <Marker position={details.position} key={index}>
+            <Popup>
+              <h3>{details.name}</h3>
+              <div style={styles.popupRating}>
+                <Rating
+                  name="read-only"
+                  value={details.rating}
+                  precision={0.5}
+                  readOnly
+                />
+                <span>({details.ratingNumber})</span>
+              </div>
+              <Button
+                style={styles.voirBoutiqueBtn}
+                variant="contained"
+                size="small"
+                onClick={() => {
+                  handleBoutiqueSelect(details);
+                  isMapSelected(true);
+                }}
+              >
+                Voir la boutique
+              </Button>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+      {mapSelected ? <CarteBoutique boutique={selectedBoutique} /> : null}
+    </div>
+  );
+}
+
+function CarteBoutique({ boutique }) {
+  const [photosBoutiques, setPhotosBoutiques] = useState("");
+  console.log(boutique.photos[0].photo_reference);
+
+  useEffect(() => {
+    setPhotosBoutiques(
+      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
+        boutique.photos[0].photo_reference +
+        "&key=AIzaSyDPpCouT8a5CIliE6YhC3tJ4we32-jy6vY"
+    );
+  }, [boutique]);
+
+  return (
+    <div>
+      <h3>{boutique.name}</h3>
+      <img src={photosBoutiques}></img>
+    </div>
   );
 }
 
