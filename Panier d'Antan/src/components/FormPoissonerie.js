@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, handleChange } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,6 +10,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 import UserContext from "../UserContext";
 
@@ -38,6 +42,8 @@ export default function FormPoissonerie() {
   console.log(userContext);
 
   const [user, setUser] = useState({});
+
+  const [age, setAge] = React.useState('')
 
   const updateData = (event) => {
     setUser({
@@ -118,17 +124,23 @@ export default function FormPoissonerie() {
                   onChange={updateData}
                 />
               </Grid>
+              
               <Grid item xs={12}>
-                <TextField
-                  autoComplete="given-name"
-                  name="tag_produit_epicerie"
-                  fullWidth
-                  id="tag_produit_epicerie"
-                  label="Tags"
-                  autoFocus
-                  onChange={updateData}
-                />
-              </Grid>
+                                <FormControl fullWidth >
+                                    <InputLabel id="demo-simple-select-label">Tags</InputLabel>
+                                    <Select
+                                        labelId="tag_produit_poissonerie"
+                                        id="tag_produit_poissonerie"
+                                        value={age}
+                                        label="Tags"
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={10}>Ten</MenuItem>
+                                        <MenuItem value={20}>Twenty</MenuItem>
+                                        <MenuItem value={30}>Thirty</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
