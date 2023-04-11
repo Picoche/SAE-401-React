@@ -35,7 +35,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function FormBoulangerie() {
   const { userContext } = useContext(UserContext);
   console.log(userContext);
 
@@ -48,11 +48,14 @@ export default function SignUp() {
     });
   };
 
+
+//--------------------------------- A REVOIR -------------------------------------------------------------------------------------
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(user);
     if (user.MDP === user.confmdp) {
-      fetch("https://panier-antan.mmicastres.fr/api/inscription", {
+      fetch("https://panier-antan.mmicastres.fr/api/boucherie", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,6 +71,9 @@ export default function SignUp() {
     }
   };
 
+// ----------------------------------------------------------------------------------------------------------------------------------
+
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -80,11 +86,9 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          
           <Typography component="h1" variant="h5">
-           S'inscrire
+            Ajouter un produit
           </Typography>
           <Box
             component="form"
@@ -93,72 +97,37 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="nom_user"
+                  name="nom_produit"
                   required
                   fullWidth
-                  id="nom_user"
-                  label="Nom"
+                  id="nom_produit"
+                  label="Nom du produit"
                   autoFocus
                   onChange={updateData}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
                 <TextField
                   required
                   fullWidth
-                  id="prenom_user"
-                  label="Prénom"
-                  name="prenom_user"
+                  id="prix_produit"
+                  label="Prix"
+                  name="prix_produit"
                   autoComplete="family-name"
                   onChange={updateData}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="pseudo"
-                  required
+                  name="tag_produit_boulangerie"
                   fullWidth
-                  id="pseudo"
-                  label="Pseudo"
+                  id="tag_produit_boulangerie"
+                  label="Tags"
                   autoFocus
-                  onChange={updateData}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="mail"
-                  label="E-Mail"
-                  name="mail"
-                  autoComplete="family-name"
-                  onChange={updateData}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="MDP"
-                  label="Mot de passe"
-                  name="MDP"
-                  autoComplete="mdp"
-                  onChange={updateData}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confmdp"
-                  label="Vérifier le mot de passe"
-                  type="confmdp"
-                  id="confmdp"
-                  autoComplete="new-password"
                   onChange={updateData}
                 />
               </Grid>
@@ -166,11 +135,32 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="adresse"
-                  label="Adresse"
-                  type="adresse"
-                  id="adresse"
-                  autoComplete="adresse"
+                  id="type_produit"
+                  label="Type de pains et de vienoiseries"
+                  name="type_produit"
+                  autoComplete="family-name"
+                  onChange={updateData}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="description_produit"
+                  label="Description du produit"
+                  name="description_produit"
+                  autoComplete="description"
+                  onChange={updateData}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  name="info_additionnelles"
+                  label="Infos additionnelles"
+                  type="info_additionnelles"
+                  id="info_additionnelles"
+                  autoComplete="new-password"
                   onChange={updateData}
                 />
               </Grid>
@@ -189,21 +179,13 @@ export default function SignUp() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                INSCRIPTION
+                AJOUT DU PRODUIT
               </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    Vous avez déja un compte ? Connectez vous
-                  </Link>
-                </Grid>
-              </Grid>
             </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-      <Typography>{userContext.id_user}</Typography>
     </ThemeProvider>
   );
 }

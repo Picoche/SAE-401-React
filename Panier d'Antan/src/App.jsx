@@ -8,14 +8,22 @@ import InscView from "./views/InscView";
 import Footer from "./components/Footer";
 import ConnectView from "./views/ConnectView";
 import InfoComView from "./views/InfoComView";
+import Typography from "@mui/material/Typography";
+import BoucherieAddProd from "./views/BoucherieAddProdView";
+import BoulangerieAddProd from "./views/BoulangerieAddView";
+import MapView from "./views/MapView";
+import EpicerieAddProd from "./views/EpicerieAddProdView";
+import PoissonerieAddProd from "./views/PoissonerieAddProdView";
+import VetementAddProd from "./views/VetementAddProdView";
+
 //-------------------------------------------------------------------
 import ProduitView from "./views/ProduitView";
 import DispoView from "./views/DispoView";
 import ProfileView from "./views/ProfileView";
 import AccountView from "./views/AccountView";
-import MapView from "./views/MapView";
 import LogoutView from "./views/LogoutView";
-import Typography from "@mui/material/Typography";
+
+
 
 import UserContext from "./UserContext";
 
