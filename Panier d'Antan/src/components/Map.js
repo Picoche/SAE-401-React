@@ -21,9 +21,9 @@ function SetMapView({ userPosition, zoom }) {
   return null;
 }
 
-export default function Map() {
+export default function Map({ selectedBoutique, setSelectedBoutique }) {
   const { userContext } = useContext(UserContext);
-  const [selectedBoutique, setSelectedBoutique] = useState([]);
+
   const [boutiquesPosition, setBoutiquesPosition] = useState([]);
   const [userPosition, setUserPosition] = useState([43.604652, 1.444209]);
   const [zoom, setZoom] = useState(14);
@@ -46,7 +46,7 @@ export default function Map() {
 
   useEffect(() => {
     const getBoutiques = () => {
-      fetch("http://panier-antan.mmicastres.fr/api/boutiques")
+      fetch("https://panier-antan.herokuapp.com/public/api/boutiques")
         .then((response) => response.json())
         .then((data) => {
           setBoutiquesPosition(data);
@@ -224,13 +224,28 @@ function CarteBoutique({ boutique }) {
 
   useEffect(() => {
     fetchPhotos();
-    console.log(photosBoutiques);
   }, [fetchPhotos]);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <h3>{boutique.infoSupp.nom_boutique}</h3>
-      <img src={photosBoutiques}></img>
+      <img src={photosBoutiques} style={{ marginBottom: "2rem" }}></img>
+      <Button
+        variant="contained"
+        size="small"
+        onClick={() => {
+          handleBoutiqueSelect(details);
+        }}
+      >
+        Voir la boutique
+      </Button>
     </div>
   );
 }

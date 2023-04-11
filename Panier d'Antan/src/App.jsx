@@ -30,6 +30,7 @@ import UserContext from "./UserContext";
 import Container from "@mui/material/Container";
 
 export default function App() {
+  const [selectedBoutique, setSelectedBoutique] = useState([]);
   const [userContext, setUserContext] = useState({
     MDP: "99211794b7f9b20ea56632d3c7da44a6",
     administrateur: 1,
@@ -52,7 +53,7 @@ export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      {/* <Header></Header> */}
+        {/* <Header></Header> */}
         <ResponsiveAppBar></ResponsiveAppBar>
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
           <Typography></Typography>
@@ -69,7 +70,15 @@ export default function App() {
               <Route path="/produit" element={<ProduitView />} />
               <Route path="/profil" element={<ProfileView />} />
               <Route path="/account" element={<AccountView />} />
-              <Route path="/boutiques" element={<MapView />} />
+              <Route
+                path="/boutiques"
+                element={
+                  <MapView
+                    selectedBoutique={selectedBoutique}
+                    setSelectedBoutique={setSelectedBoutique}
+                  />
+                }
+              />
               <Route path="/logout" element={<LogoutView />} />
               <Route path="/boucherie" element={<BoucherieAddProd />} />
               <Route path="/boulangerie" element={<BoulangerieAddProd />} />
