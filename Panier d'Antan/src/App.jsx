@@ -1,5 +1,5 @@
 import "./styles.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import ResponsiveAppBar from "./views/ResponsiveAppBar";
@@ -23,8 +23,6 @@ import ProfileView from "./views/ProfileView";
 import AccountView from "./views/AccountView";
 import LogoutView from "./views/LogoutView";
 
-
-
 import UserContext from "./UserContext";
 
 import Container from "@mui/material/Container";
@@ -46,15 +44,14 @@ export default function App() {
   const user = { userContext, setUserContext };
 
   const PrivateRoute = ({ element: Component, ...rest }) => {
+    const { userContext } = useContext(UserContext);
     return (
       <Route
         {...rest}
         element={
-          user && user.id_user ? (
-            <Component />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          userContext && userContext.id_user
+            ? Component
+            : () => <Navigate to="/login" replace />
         }
       />
     );
@@ -74,19 +71,21 @@ export default function App() {
               <Route path="/" element={<AccueilNCView />} />
               <Route path="/inscription" element={<InscView />} />
               <Route path="/login" element={<ConnectView />} />
-              <Route
-                path="/devcommercant"
-                element={<PrivateRoute element={<InfoComView />} />}
-              />
+              <Route path="/devcommercant" element={<InfoComView />} />
 
               {/* //--------------------------- ------------------------------------------*/}
 
-              <PrivateRoute path="/dispo" element={<DispoView />} />
-              <PrivateRoute path="/produit" element={<ProduitView />} />
-              <PrivateRoute path="/profil" element={<ProfileView />} />
-              <PrivateRoute path="/account" element={<AccountView />} />
-              <PrivateRoute path="/boutiques" element={<MapView />} />
-              <PrivateRoute path="/logout" element={<LogoutView />} />
+              <Route path="/dispo" element={<DispoView />} />
+
+              <Route path="/produit" element={<ProduitView />} />
+
+              <Route path="/profil" element={<ProfileView />} />
+
+              <Route path="/account" element={<AccountView />} />
+
+              <Route path="/boutiques" element={<MapView />} />
+
+              <Route path="/logout" element={<LogoutView />} />
             </Routes>
           </UserContext.Provider>
         </Container>
@@ -94,4 +93,13 @@ export default function App() {
       </BrowserRouter>
     </div>
   );
+}
+
+{
+  /* <PrivateRoute path="/dispo" element={<DispoView />} />
+              <PrivateRoute path="/produit" element={<ProduitView />} />
+              <PrivateRoute path="/profil" element={<ProfileView />} />
+              <PrivateRoute path="/account" element={<AccountView />} />
+              <PrivateRoute path="/boutiques" element={<MapView />} />
+              <PrivateRoute path="/logout" element={<LogoutView />} /> */
 }
