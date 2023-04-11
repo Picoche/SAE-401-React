@@ -1,6 +1,6 @@
 import "./styles.css";
 import React, { useState, useEffect } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import ResponsiveAppBar from "./views/ResponsiveAppBar";
 import AccueilNCView from "./views/AccueilNCView";
@@ -37,6 +37,21 @@ export default function App() {
   });
   const user = { userContext, setUserContext };
 
+  const PrivateRoute = ({ element: Component, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        element={
+          user && user.id_user ? (
+            <Component />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+    );
+  };
+
   useEffect(() => {
     console.log(user);
   }, [user]);
@@ -45,22 +60,43 @@ export default function App() {
       <BrowserRouter>
         <ResponsiveAppBar></ResponsiveAppBar>
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
+          <Typography></Typography>
           <UserContext.Provider value={user}>
-            <Typography></Typography>
             <Routes>
               <Route path="/" element={<AccueilNCView />} />
               <Route path="/inscription" element={<InscView />} />
               <Route path="/login" element={<ConnectView />} />
-              <Route path="/devcommercant" element={<InfoComView />} />
+              <Route
+                path="/devcommercant"
+                element={<PrivateRoute element={<InfoComView />} />}
+              />
 
               {/* //--------------------------- ------------------------------------------*/}
 
-              <Route path="/dispo" element={<DispoView />} />
-              <Route path="/produit" element={<ProduitView />} />
-              <Route path="/profil" element={<ProfileView />} />
-              <Route path="/account" element={<AccountView />} />
-              <Route path="/boutiques" element={<MapView />} />
-              <Route path="/logout" element={<LogoutView />} />
+              <Route
+                path="/dispo"
+                element={<PrivateRoute element={<DispoView />} />}
+              />
+              <Route
+                path="/produit"
+                element={<PrivateRoute element={<ProduitView />} />}
+              />
+              <Route
+                path="/profil"
+                element={<PrivateRoute element={<ProfileView />} />}
+              />
+              <Route
+                path="/account"
+                element={<PrivateRoute element={<AccountView />} />}
+              />
+              <Route
+                path="/boutiques"
+                element={<PrivateRoute element={<MapView />} />}
+              />
+              <Route
+                path="/logout"
+                element={<PrivateRoute element={<LogoutView />} />}
+              />
             </Routes>
           </UserContext.Provider>
         </Container>
