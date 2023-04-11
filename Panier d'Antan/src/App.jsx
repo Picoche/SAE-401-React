@@ -8,14 +8,22 @@ import InscView from "./views/InscView";
 import Footer from "./components/Footer";
 import ConnectView from "./views/ConnectView";
 import InfoComView from "./views/InfoComView";
+import Typography from "@mui/material/Typography";
+import BoucherieAddProd from "./views/BoucherieAddProdView";
+import BoulangerieAddProd from "./views/BoulangerieAddView";
+import MapView from "./views/MapView";
+import EpicerieAddProd from "./views/EpicerieAddProdView";
+import PoissonerieAddProd from "./views/PoissonerieAddProdView";
+import VetementAddProd from "./views/VetementAddProdView";
+
 //-------------------------------------------------------------------
 import ProduitView from "./views/ProduitView";
 import DispoView from "./views/DispoView";
 import ProfileView from "./views/ProfileView";
 import AccountView from "./views/AccountView";
-import MapView from "./views/MapView";
 import LogoutView from "./views/LogoutView";
-import Typography from "@mui/material/Typography";
+
+
 
 import UserContext from "./UserContext";
 
@@ -52,6 +60,12 @@ export default function App() {
               <Route path="/inscription" element={<InscView />} />
               <Route path="/login" element={<ConnectView />} />
               <Route path="/devcommercant" element={<InfoComView />} />
+              <Route path="/boutiques" element={<MapView />} />
+              <Route path="/boucherie" element={<BoucherieAddProd/>}/>
+              <Route path="/boulangerie" element={<BoulangerieAddProd/>}/>
+              <Route path="/epicerie" element={<EpicerieAddProd/>}/>
+              <Route path="/poissonerie" element={<PoissonerieAddProd/>}/>
+              <Route path="/vetement" element={<VetementAddProd/>}/>
 
               {/* //--------------------------- ------------------------------------------*/}
 
@@ -59,8 +73,8 @@ export default function App() {
               <Route path="/produit" element={<ProduitView />} />
               <Route path="/profil" element={<ProfileView />} />
               <Route path="/account" element={<AccountView />} />
-              <Route path="/boutiques" element={<MapView />} />
               <Route path="/logout" element={<LogoutView />} />
+              
             </Routes>
           </UserContext.Provider>
         </Container>
