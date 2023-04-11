@@ -3,6 +3,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import ResponsiveAppBar from "./views/ResponsiveAppBar";
+// import Header from "./components/Header";
 import AccueilNCView from "./views/AccueilNCView";
 import InscView from "./views/InscView";
 import Footer from "./components/Footer";
@@ -63,6 +64,7 @@ export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      {/* <Header></Header> */}
         <ResponsiveAppBar></ResponsiveAppBar>
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
           <Typography></Typography>
