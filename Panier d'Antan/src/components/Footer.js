@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import DrapeauFR from "../assets/france.png";
 
 export default function Footer() {
   function Copyright() {
@@ -10,7 +11,7 @@ export default function Footer() {
       <Typography variant="body2" color="text.secondary" align="center">
         {"Copyright © "}
         <Link color="inherit" href="https://mui.com/">
-          Your Website
+          Panier d'Antan
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}
@@ -18,23 +19,37 @@ export default function Footer() {
     );
   }
   return (
-    <Container>
+    <div
+      style={{
+        backgroundColor: "#94DDFC",
+        margin: 0,
+        padding: 15,
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 3 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
+      <Box component="footer" sx={{ margin: 0 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "start",
+            padding: ".5rem",
+            border: "2px solid white",
+            borderRadius: "75px",
+          }}
         >
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
+          <img style={{ paddingRight: "1rem" }} src={DrapeauFR}></img>
+          <Typography>| € (EUR)</Typography>
+        </Box>
       </Box>
+      <Typography>Cookies</Typography>
+      <Typography>Mentions légales</Typography>
+      <Typography>Conditions d'utilisation</Typography>
+      <Copyright />
+
       {/* End footer */}
-    </Container>
+    </div>
   );
 }
