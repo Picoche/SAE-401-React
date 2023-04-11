@@ -4,8 +4,10 @@ import "leaflet/dist/leaflet.css";
 import { useGeolocated } from "react-geolocated";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
+import Slider from "@mui/material/Slider";
 
 import UserContext from "../UserContext";
+import { map } from "leaflet";
 
 const GET_LOCATION_URL = "http://localhost:4000/boutiques/places?input=";
 const BOUTIQUES_DETAILS_URL =
@@ -24,7 +26,7 @@ export default function Map() {
   const [selectedBoutique, setSelectedBoutique] = useState([]);
   const [boutiquesPosition, setBoutiquesPosition] = useState([]);
   const [userPosition, setUserPosition] = useState([43.604652, 1.444209]);
-  const [zoom, setZoom] = useState(13);
+  const [zoom, setZoom] = useState(14);
 
   const handleBoutiqueSelect = useCallback((boutique) => {
     setSelectedBoutique(boutique);

@@ -1,4 +1,5 @@
 import "./styles.css";
+import "@fontsource/roboto";
 import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
@@ -43,23 +44,10 @@ export default function App() {
   });
   const user = { userContext, setUserContext };
 
-  const PrivateRoute = ({ element: Component, ...rest }) => {
-    const { userContext } = useContext(UserContext);
-    return (
-      <Route
-        {...rest}
-        element={
-          userContext && userContext.id_user
-            ? Component
-            : () => <Navigate to="/login" replace />
-        }
-      />
-    );
-  };
-
   useEffect(() => {
     console.log(user);
   }, [user]);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -73,7 +61,7 @@ export default function App() {
               <Route path="/login" element={<ConnectView />} />
               <Route path="/devcommercant" element={<InfoComView />} />
 
-              {/* //--------------------------- ------------------------------------------*/}
+              {/* //---------------------------------------------------------------------*/}
 
               <Route path="/dispo" element={<DispoView />} />
               <Route path="/produit" element={<ProduitView />} />
@@ -93,13 +81,4 @@ export default function App() {
       </BrowserRouter>
     </div>
   );
-}
-
-{
-  /* <PrivateRoute path="/dispo" element={<DispoView />} />
-              <PrivateRoute path="/produit" element={<ProduitView />} />
-              <PrivateRoute path="/profil" element={<ProfileView />} />
-              <PrivateRoute path="/account" element={<AccountView />} />
-              <PrivateRoute path="/boutiques" element={<MapView />} />
-              <PrivateRoute path="/logout" element={<LogoutView />} /> */
 }
