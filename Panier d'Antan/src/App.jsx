@@ -76,16 +76,16 @@ export default function App() {
               {/* //--------------------------- ------------------------------------------*/}
 
               <Route path="/dispo" element={<DispoView />} />
-
               <Route path="/produit" element={<ProduitView />} />
-
               <Route path="/profil" element={<ProfileView />} />
-
               <Route path="/account" element={<AccountView />} />
-
               <Route path="/boutiques" element={<MapView />} />
-
               <Route path="/logout" element={<LogoutView />} />
+              <Route path="/boucherie" element={<BoucherieAddProd />} />
+              <Route path="/boulangerie" element={<BoulangerieAddProd />} />
+              <Route path="/epicerie" element={<EpicerieAddProd />} />
+              <Route path="/poissonerie" element={<PoissonerieAddProd />} />
+              <Route path="/vetement" element={<VetementAddProd />} />
             </Routes>
           </UserContext.Provider>
         </Container>
