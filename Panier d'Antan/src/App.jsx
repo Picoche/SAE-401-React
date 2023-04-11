@@ -94,12 +94,3 @@ export default function App() {
     </div>
   );
 }
-
-{
-  /* <PrivateRoute path="/dispo" element={<DispoView />} />
-              <PrivateRoute path="/produit" element={<ProduitView />} />
-              <PrivateRoute path="/profil" element={<ProfileView />} />
-              <PrivateRoute path="/account" element={<AccountView />} />
-              <PrivateRoute path="/boutiques" element={<MapView />} />
-              <PrivateRoute path="/logout" element={<LogoutView />} /> */
-}
