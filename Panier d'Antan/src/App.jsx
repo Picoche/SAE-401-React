@@ -87,6 +87,11 @@ export default function App() {
               <PrivateRoute path="/account" element={<AccountView />} />
               <PrivateRoute path="/boutiques" element={<MapView />} />
               <PrivateRoute path="/logout" element={<LogoutView />} />
+              <PrivateRoute path="/boucherie" element={<BoucherieAddProd/>}/>
+              <PrivateRoute path="/boulangerie" element={<BoulangerieAddProd/>}/>
+              <PrivateRoute path="/epicerie" element={<EpicerieAddProd/>}/>
+              <PrivateRoute path="/poissonerie" element={<PoissonerieAddProd/>}/>
+              <PrivateRoute path="/vetement" element={<VetementAddProd/>}/>
             </Routes>
           </UserContext.Provider>
         </Container>
