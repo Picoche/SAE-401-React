@@ -61,7 +61,7 @@ export default function App() {
         <ResponsiveAppBar></ResponsiveAppBar>
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
           <Typography></Typography>
-          <UserContext.Provider value={user}>
+          <UserContext.Provider value={{ userContext, setUserContext }}>
             <Routes>
               <Route path="/" element={<AccueilNCView />} />
               <Route path="/inscription" element={<InscView />} />
@@ -73,30 +73,12 @@ export default function App() {
 
               {/* //--------------------------- ------------------------------------------*/}
 
-              <Route
-                path="/dispo"
-                element={<PrivateRoute element={<DispoView />} />}
-              />
-              <Route
-                path="/produit"
-                element={<PrivateRoute element={<ProduitView />} />}
-              />
-              <Route
-                path="/profil"
-                element={<PrivateRoute element={<ProfileView />} />}
-              />
-              <Route
-                path="/account"
-                element={<PrivateRoute element={<AccountView />} />}
-              />
-              <Route
-                path="/boutiques"
-                element={<PrivateRoute element={<MapView />} />}
-              />
-              <Route
-                path="/logout"
-                element={<PrivateRoute element={<LogoutView />} />}
-              />
+              <PrivateRoute path="/dispo" element={<DispoView />} />
+              <PrivateRoute path="/produit" element={<ProduitView />} />
+              <PrivateRoute path="/profil" element={<ProfileView />} />
+              <PrivateRoute path="/account" element={<AccountView />} />
+              <PrivateRoute path="/boutiques" element={<MapView />} />
+              <PrivateRoute path="/logout" element={<LogoutView />} />
             </Routes>
           </UserContext.Provider>
         </Container>
