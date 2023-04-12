@@ -1,9 +1,16 @@
-import React, { useState, useEffect, Image } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  Image,
+} from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useParams,
+  useNavigate,
 } from "react-router-dom";
 import {
   Button,
@@ -17,11 +24,26 @@ import Card from "@mui/joy/Card";
 import CardOverflow from "@mui/joy/CardOverflow";
 import Divider from "@mui/joy/Divider";
 import IconButton from "@mui/joy/IconButton";
-import Link from "@mui/joy/Link";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import Chip from "@mui/joy/Chip";
 
+import UserContext from "../UserContext";
+
 export default function Boutique({ id }) {
+  const navigate = useNavigate();
+  const [favoriteList, setFavoriteList] = useState([]);
+  const { userContext } = useContext(UserContext);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const ViewProduit = useCallback((e) => {
+    navigate(`/boutique/${id}/produits/${e.target.dataset.id}`);
+  }, []);
+
+  const handleFavoriteClick = () => {
+    setIsFavorite(!isFavorite);
+  };
   const titre = createTheme({
     typography: {
       fontFamily: ["Unbounded", "cursive"].join(","),
@@ -30,7 +52,6 @@ export default function Boutique({ id }) {
 
   const [boutique, setBoutique] = useState([]);
   const [produits, setProduits] = useState([]);
-  const [detailsCat, setDetailsCat] = useState([]);
 
   useEffect(() => {
     const getBoutique = async () => {
@@ -38,14 +59,10 @@ export default function Boutique({ id }) {
         `https://panier-antan.mmicastres.fr/public/api/boutiques/${id}/produits`
       );
       const data = await response.json();
-      console.log(data.produits);
-      console.log(data.boutique.nom_boutique);
       console.log(data);
       console.log(data.produits);
-      console.log(data.details[1]);
       setBoutique(data.boutique);
-      setProduits(data.produits ? Object.values(data.produits) : []);
-      setDetailsCat(data.details ? Object.values(data.details) : []);
+      setProduits(data.details ? Object.values(data.details) : []);
     };
     getBoutique();
   }, []);
@@ -57,7 +74,13 @@ export default function Boutique({ id }) {
           {boutique.nom_boutique}
         </Typography>
       </ThemeProvider>
-      <Container>
+      <Container
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          marginTop: "3rem",
+        }}
+      >
         {produits?.map((produit, index) => (
           <Card variant="outlined" sx={{ width: 320 }} key={index}>
             <CardOverflow>
@@ -72,9 +95,9 @@ export default function Boutique({ id }) {
                 aria-label="Like minimal photography"
                 size="md"
                 variant="solid"
-                color="danger"
                 sx={{
                   position: "absolute",
+                  backgroundColor: "#FFA42E",
                   zIndex: 2,
                   borderRadius: "50%",
                   right: "1rem",
@@ -82,7 +105,26 @@ export default function Boutique({ id }) {
                   transform: "translateY(50%)",
                 }}
               >
-                <Favorite />
+                <VisibilityIcon
+                  onClick={ViewProduit}
+                  data-id={produit.id_produit}
+                />
+              </IconButton>
+              <IconButton
+                aria-label="Like minimal photography"
+                size="md"
+                variant="solid"
+                color="danger"
+                sx={{
+                  position: "absolute",
+                  zIndex: 2,
+                  borderRadius: "50%",
+                  left: "1rem",
+                  bottom: 0,
+                  transform: "translateY(50%)",
+                }}
+              >
+                <FavoriteBorder />
               </IconButton>
             </CardOverflow>
             <Typography level="h2" fontSize="md" fontWeight="bold" mt={2}>
@@ -112,9 +154,17 @@ export default function Boutique({ id }) {
               <Chip>
                 <Typography
                   level="body3"
-                  sx={{ fontWeight: "md", color: "text.secondary" }}
+                  sx={{ fontWeight: "md", color: "white" }}
                 >
-                  {/* {detailsCat["1"].info_type.provenance} */}
+                  {produit.details.infos_type.provenance}
+                </Typography>
+              </Chip>
+              <Chip>
+                <Typography
+                  level="body3"
+                  sx={{ fontWeight: "md", color: "white" }}
+                >
+                  {produit.details.tags[0].tag_produit_boucherie}
                 </Typography>
               </Chip>
             </CardOverflow>

@@ -74,6 +74,10 @@ export default function App() {
                 }
               />
               <Route path="/boutique/:id/produits" element={<BoutiqueView />} />
+              <Route
+                path="/boutique/:id/produits/:id_produit"
+                element={<ProduitView />}
+              />
 
               {/* //---------------------------------------------------------------------*/}
 
