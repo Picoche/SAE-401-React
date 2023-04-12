@@ -27,48 +27,67 @@ export default function AccueilNCView() {
         textAlign: "center",
       }}
     >
-      <div className="divAccueilNC">
-        <img src={shop1} className="imgAccueilNC"></img>
-        <div>
-          <ThemeProvider theme={titre}>
-            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-              Au plus proche des commerçants
-            </Typography>
-          </ThemeProvider>
-          <Link to="/inscription">
-            <Button variant="contained" className="button">
-              <Typography>INSCRIPTION</Typography>
-            </Button>
-          </Link>
-        </div>
-        <img src={shop1} className="imgAccueilNC"></img>
-      </div>
-      <div className="blocAccueilNC">
-        <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-            Qu'est ce que "Panier d'Antan" ?
-          </Typography>
-        </ThemeProvider>
+      <div style={{
+        backgroundColor: "#FFFF",
+        textAlign: "center",
 
-        <div className="blocAccueilNC">
-          <ThemeProvider theme={normal}>
-            <Typography>
-              Différents des sites e-commerce traditionnels, Panier d’Antan
-              permet la revalorisation de nos commerces de villages au travers
-              d’un moyen pour ces derniers de se digitaliser, et ainsi de suivre
-              la tendance du commerce en ligne, si attrayante auprès des jeunes.
-              Créé en 2023 et géré par des professionnels, Panier d’Antan permet
-              aux commerçants de gérer facilement leur boutique et leurs
-              produits. En bref, Panier d’Antan est un site e-commerce qui
-              référence les petits magasins et commerces des villages autour de
-              vous !
-            </Typography>
-          </ThemeProvider>
+        alignItems: "center",
+      }}>
+        <div className="divAccueilNC">
+          <img src={shop1} className="imgAccueilNC"></img>
+          <div>
+            <ThemeProvider theme={titre}>
+              <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+                Au plus proche des commerçants
+              </Typography>
+            </ThemeProvider>
+            <Link to="/inscription">
+              <Button variant="contained" className="button" style={{
+                borderRadius: "30%",
+                margin:"20px 15px",
+                
+              }}>
+                <Typography>INSCRIPTION</Typography>
+              </Button>
+            </Link>
+          </div>
+          <img src={shop1} className="imgAccueilNC"></img>
         </div>
       </div>
+
+      {/*  */}
+      <div style={{
+        backgroundColor: "#F5F5F5"
+      }}>
+        <div className="blocAccueilNC">
+          <ThemeProvider theme={titre}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px" }}>
+              Qu'est ce que "Panier d'Antan" ?
+            </Typography>
+          </ThemeProvider>
+
+          <div className="blocAccueilNC">
+            <ThemeProvider theme={normal}>
+              <Typography>
+                Différents des sites e-commerce traditionnels, Panier d’Antan
+                permet la revalorisation de nos commerces de villages au travers
+                d’un moyen pour ces derniers de se digitaliser, et ainsi de suivre
+                la tendance du commerce en ligne, si attrayante auprès des jeunes.
+                Créé en 2023 et géré par des professionnels, Panier d’Antan permet
+                aux commerçants de gérer facilement leur boutique et leurs
+                produits. En bref, Panier d’Antan est un site e-commerce qui
+                référence les petits magasins et commerces des villages autour de
+                vous !
+              </Typography>
+            </ThemeProvider>
+          </div>
+        </div>
+      </div>
+
+      {/*  */}
       <div className="blocAccueilNC">
         <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px"}} >
             Dans quel but ?
           </Typography>
         </ThemeProvider>
@@ -88,26 +107,34 @@ export default function AccueilNCView() {
           </ThemeProvider>
         </div>
       </div>
-      <div className="blocAcceuilNC">
-        <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
-            Pouvons nous utiliser le site partout en France ?
-          </Typography>
-        </ThemeProvider>
-        <div className="blocAccueilNC">
-          <ThemeProvider theme={normal}>
-            <Typography>
-              Absolument ! Vous pouvez rechercher les boutiques autour de vous
-              en temps réel grâce à la géolocalisation, ou tout simplement en
-              saisissant une adresse et une zone de recherche en km à la ronde
-              autour de ce point !
+
+      {/*  */}
+      <div style={{
+        backgroundColor: "#F5F5F5"
+      }}>
+        <div className="blocAcceuilNC">
+          <ThemeProvider theme={titre}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px" }}>
+              Pouvons nous utiliser le site partout en France ?
             </Typography>
           </ThemeProvider>
+          <div className="blocAccueilNC">
+            <ThemeProvider theme={normal}>
+              <Typography>
+                Absolument ! Vous pouvez rechercher les boutiques autour de vous
+                en temps réel grâce à la géolocalisation, ou tout simplement en
+                saisissant une adresse et une zone de recherche en km à la ronde
+                autour de ce point !
+              </Typography>
+            </ThemeProvider>
+          </div>
         </div>
       </div>
+
+      {/*  */}
       <div className="blocAcceuilNC">
         <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px" }}>
             Mais Panier d'Antan c'est aussi une application !
           </Typography>
         </ThemeProvider>

@@ -46,14 +46,20 @@ function ResponsiveAppBar() {
           justifyContent : "center",
           alignItems : "center",
         }}>
+          
         <Box component="header" sx={{ margin: 0 }}>
+        <Link to="/">
           <Box>
             <img style={{ width: 50, height: 50 }} src={Logo}></img>
           </Box>
+          </Link>
         </Box>
         <ThemeProvider theme={titre}>
+        <Link>
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>Panier d'Antan</Typography>
+          </Link>
         </ThemeProvider>
+        
         </div>
       </div>
 
