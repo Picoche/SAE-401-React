@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import ResponsiveAppBar from "./views/ResponsiveAppBar";
+import ResponsiveConnectAppBar from "./Views/ResponsiveConnectAppBar";
 // import Header from "./components/Header";
 import AccueilNCView from "./views/AccueilNCView";
 import InscView from "./views/InscView";
@@ -32,11 +33,11 @@ import UserContext, { UserProvider } from "./UserContext";
 
 export default function App() {
   const [selectedBoutique, setSelectedBoutique] = useState([]);
+  const { user } = useContext(UserContext);
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Header></Header> */}
-        <ResponsiveAppBar></ResponsiveAppBar>
+        {user ? <ResponsiveConnectAppBar /> : <ResponsiveAppBar />}
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
           <Typography></Typography>
           <UserProvider>

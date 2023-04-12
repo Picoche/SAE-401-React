@@ -49,7 +49,7 @@ export default function SignIn() {
         if (data.status === 1) {
           localStorage.setItem("userContext", JSON.stringify(data.user));
           setUserContext(data.user);
-          useNavigate("/boutiques");
+          logInSuccess();
         } else {
           setLogInFeedback(
             "Votre email ou votre mot de passe est incorrect, veuillez réessayer."
