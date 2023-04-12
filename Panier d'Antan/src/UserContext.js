@@ -1,25 +1,25 @@
-import { createContext } from "react";
-
-// const UserContext = createContext({
-//   userContext: {},
-//   setUserContext: () => {},
-// });
+import React, { createContext, useState, useEffect } from "react";
 
 const UserContext = createContext({
-  userContext: {
-    MDP: "99211794b7f9b20ea56632d3c7da44a6",
-    administrateur: 1,
-    adresse: "18 rue Croix de Fournès, 81100 Castres",
-    commercant: 1,
-    date_insc: "2023-03-14",
-    id_user: 1729764896,
-    image_profil: null,
-    mail: "hombert.fabien@gmail.com",
-    nom_user: "Hombert",
-    prenom_user: "Fabien",
-    pseudo: "Picoche",
-  },
+  userContext: null,
   setUserContext: () => {},
 });
 
+const UserProvider = ({ children }) => {
+  const [userContext, setUserContext] = useState(
+    JSON.parse(localStorage.getItem("userContext")) || null
+  );
+
+  useEffect(() => {
+    localStorage.setItem("userContext", JSON.stringify(userContext));
+  }, [userContext]);
+
+  return (
+    <UserContext.Provider value={{ userContext, setUserContext }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
 export default UserContext;
+export { UserProvider };
