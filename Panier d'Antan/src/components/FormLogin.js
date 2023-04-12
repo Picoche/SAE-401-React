@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,45 +15,53 @@ import UserContext from "../UserContext";
 
 import { Link } from "react-router-dom";
 
-export default function SignIn() {
-  const { userContext, setUserContext } = useContext(UserContext);
+export default function FormLogin() {
+  const { setUserContext } = useContext(UserContext);
 
   const [logInFeedback, setLogInFeedback] = useState([]);
-  const [data, setData] = useState({});
+  const [formData, setFormData] = useState({
+    mail: "",
+    MDP: "",
+  });
 
-  const updateData = (event) => {
-    setData({
-      ...data,
+  const updateFormData = (event) => {
+    setFormData({
+      ...formData,
       [event.target.name]: event.target.value,
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(data);
-    fetch("https://panier-antan.herokuapp.com/public/api/connexion", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.status === 1) {
-          setUserContext(data.user);
-        } else {
-        }
-      });
-  };
 
-  useEffect(() => {
-    console.log(userContext);
-  }, [userContext]);
+    try {
+      const response = await fetch(
+        "https://panier-antan.herokuapp.com/public/api/connexion",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.status === 1) {
+        console.log(data);
+        setUserContext(data.user);
+      } else {
+        // handle login error
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
+      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -78,7 +86,8 @@ export default function SignIn() {
             name="mail"
             autoComplete="mail"
             autoFocus
-            onChange={updateData}
+            value={formData.mail}
+            onChange={updateFormData}
           />
           <TextField
             margin="normal"
@@ -89,7 +98,8 @@ export default function SignIn() {
             type="password"
             id="MDP"
             autoComplete="current-password"
-            onChange={updateData}
+            value={formData.MDP}
+            onChange={updateFormData}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

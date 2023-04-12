@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import ResponsiveAppBar from "./views/ResponsiveAppBar";
-// import Header from "./components/Header";
 import AccueilNCView from "./views/AccueilNCView";
 import InscView from "./views/InscView";
 import Footer from "./components/Footer";
@@ -17,8 +16,6 @@ import MapView from "./views/MapView";
 import EpicerieAddProd from "./views/EpicerieAddProdView";
 import PoissonerieAddProd from "./views/PoissonerieAddProdView";
 import VetementAddProd from "./views/VetementAddProdView";
-
-//-------------------------------------------------------------------
 import ProduitView from "./views/ProduitView";
 import DispoView from "./views/DispoView";
 import ProfileView from "./views/ProfileView";
@@ -32,33 +29,59 @@ import Container from "@mui/material/Container";
 
 export default function App() {
   const [selectedBoutique, setSelectedBoutique] = useState([]);
-  const [userContext, setUserContext] = useState({
-    MDP: "99211794b7f9b20ea56632d3c7da44a6",
-    administrateur: 1,
-    adresse: "18 rue Croix de Fournès, 81100 Castres",
-    commercant: 1,
-    date_insc: "2023-03-14",
-    id_user: 1729764896,
+  const [user, setUser] = useState({
+    MDP: "",
+    administrateur: 0,
+    adresse: "",
+    commercant: 0,
+    date_insc: "",
+    id_user: 0,
     image_profil: null,
-    mail: "hombert.fabien@gmail.com",
-    nom_user: "Hombert",
-    prenom_user: "Fabien",
-    pseudo: "Picoche",
+    mail: "",
+    nom_user: "",
+    prenom_user: "",
+    pseudo: "",
   });
-  const user = { userContext, setUserContext };
 
   useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
     console.log(user);
   }, [user]);
+
+  const login = (user) => {
+    setUser(user);
+  };
+
+  const logout = () => {
+    setUser({
+      MDP: "",
+      administrateur: 0,
+      adresse: "",
+      commercant: 0,
+      date_insc: "",
+      id_user: 0,
+      image_profil: null,
+      mail: "",
+      nom_user: "",
+      prenom_user: "",
+      pseudo: "",
+    });
+  };
 
   return (
     <div className="App">
       <BrowserRouter>
-        {/* <Header></Header> */}
-        <ResponsiveAppBar></ResponsiveAppBar>
+        <ResponsiveAppBar user={user} logout={logout} />
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
           <Typography></Typography>
-          <UserContext.Provider value={{ userContext, setUserContext }}>
+          <UserContext.Provider value={{ user, login }}>
             <Routes>
               <Route path="/" element={<AccueilNCView />} />
               <Route path="/inscription" element={<InscView />} />
@@ -73,6 +96,7 @@ export default function App() {
                   />
                 }
               />
+              <Route path="/boutique/:id/produits" element={<BoutiqueView />} />
               <Route path="/boutique/:id/produits" element={<BoutiqueView />} />
               <Route
                 path="/boutique/:id/produits/:id_produit"
