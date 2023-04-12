@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Container, Typography } from "@mui/material";
 import Boutique from "../components/Boutique";
 

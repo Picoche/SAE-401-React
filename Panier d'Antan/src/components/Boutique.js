@@ -106,8 +106,8 @@ export default function Boutique({ id }) {
                 }}
               >
                 <VisibilityIcon
-                  onClick={ViewProduit}
                   data-id={produit.id_produit}
+                  onClick={ViewProduit}
                 />
               </IconButton>
               <IconButton
