@@ -16,7 +16,6 @@ import Link from "@mui/joy/Link";
 import Favorite from "@mui/icons-material/Favorite";
 
 import UserContext from "../UserContext";
-import { map } from "leaflet";
 
 const GET_LOCATION_URL = "http://localhost:4000/boutiques/places?input=";
 const BOUTIQUES_DETAILS_URL =
@@ -44,7 +43,9 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
   }, []);
 
   const handleBoutiqueSelect = useCallback((boutique) => {
-    navigate(`/boutique/${boutique.infoSupp.id_boutique}/produits`);
+    navigate(`/boutique/${boutique.infoSupp.id_boutique}/produits`, {
+      "boutique": boutique
+    });
   }, []);
 
   const url = "https://api.geocodify.com/v2/geocode?api_key=";
@@ -83,7 +84,7 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
         });
       });
     }
-  }, [coords, userContext.adresse, url, apiKey]);
+  }, [coords, userContext.adresse, url, apiKey]); 
 
   return !isGeolocationAvailable ? (
     <div>Votre navigateur ne supporte pas la géolocalisation</div>
