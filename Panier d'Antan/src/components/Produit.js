@@ -102,12 +102,8 @@ export default function Produit({ id_boutique, id_produit }) {
             {produit.details?.infos_type?.provenance}
           </Typography>
           <div className={classes.productTags}>
-            <Chip
-              label={produit.details?.tag[0]?.tag_produit_boucherie}
-              className={classes.tag}
-              color="primary"
-            >
-              {produit.details?.tag[0]?.tag_produit_boucherie}
+            <Chip className={classes.tag} color="primary">
+              {produit.details?.tags[0]?.tag_produit_boucherie}
             </Chip>
           </div>
           <Typography variant="body1" className={classes.price}>
