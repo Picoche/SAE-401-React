@@ -31,16 +31,25 @@ import UserContext from "./UserContext";
 import Container from "@mui/material/Container";
 
 export default function App() {
-  const AuthContext = React.createContext();
   const [selectedBoutique, setSelectedBoutique] = useState([]);
+  const [userContext, setUserContext] = useState({
+    MDP: "99211794b7f9b20ea56632d3c7da44a6",
+    administrateur: 1,
+    adresse: "18 rue Croix de Fournès, 81100 Castres",
+    commercant: 1,
+    date_insc: "2023-03-14",
+    id_user: 1729764896,
+    image_profil: null,
+    mail: "hombert.fabien@gmail.com",
+    nom_user: "Hombert",
+    prenom_user: "Fabien",
+    pseudo: "Picoche",
+  });
+  const user = { userContext, setUserContext };
 
-  function AuthProvider(props) {
-    const [user, setUser] = useState(localStorage.getItem("user") || null);
-
-    useEffect(() => {
-      localStorage.setItem("user", user);
-    }, [user]);
-  }
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <div className="App">
@@ -49,7 +58,7 @@ export default function App() {
         <ResponsiveAppBar></ResponsiveAppBar>
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
           <Typography></Typography>
-          <AuthContext.Provider value={{ user, setUser }}>
+          <UserContext.Provider value={{ userContext, setUserContext }}>
             <Routes>
               <Route path="/" element={<AccueilNCView />} />
               <Route path="/inscription" element={<InscView />} />
@@ -83,7 +92,7 @@ export default function App() {
               <Route path="/poissonerie" element={<PoissonerieAddProd />} />
               <Route path="/vetement" element={<VetementAddProd />} />
             </Routes>
-          </AuthContext.Provider>
+          </UserContext.Provider>
         </Container>
         <Footer />
       </BrowserRouter>
