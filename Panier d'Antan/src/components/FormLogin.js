@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,15 +11,20 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import UserContext from "../UserContext";
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const { userContext, setUserContext } = useContext(UserContext);
 
   const [data, setData] = useState({});
   const [logInFeedback, setLogInFeedback] = useState(null);
+
+  const logInSuccess = useCallback(() => {
+    navigate("/boutiques");
+  }, []);
 
   const updateData = (event) => {
     setData({
@@ -44,8 +49,8 @@ export default function SignIn() {
         if (data.status === 1) {
           localStorage.setItem("userContext", JSON.stringify(data.user));
           setUserContext(data.user);
+          logInSuccess();
         } else {
-          setData({});
           setLogInFeedback(
             "Votre email ou votre mot de passe est incorrect, veuillez réessayer."
           );
