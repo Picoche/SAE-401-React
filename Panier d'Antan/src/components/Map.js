@@ -52,7 +52,7 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
 
   useEffect(() => {
     const getBoutiques = () => {
-      fetch("https://panier-antan.mmicastres.fr/public/api/boutiques")
+      fetch("https://panier-antan.herokuapp.com/public/api/boutiques")
         .then((response) => response.json())
         .then((data) => {
           setBoutiquesPosition(data);

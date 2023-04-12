@@ -9,6 +9,7 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
+import Chip from "@mui/joy/Chip";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
@@ -29,9 +30,13 @@ const useStyles = makeStyles((theme) => ({
   productOrigin: {
     fontStyle: "italic",
     marginBottom: theme.spacing(1),
+    color: theme.palette.primary.main,
   },
   productTags: {
     marginBottom: theme.spacing(2),
+  },
+  tag: {
+    margin: theme.spacing(0.5),
   },
   productDescription: {
     whiteSpace: "pre-line",
@@ -64,10 +69,11 @@ export default function Produit({ id_boutique, id_produit }) {
   useEffect(() => {
     const getProduit = async () => {
       const response = await fetch(
-        `https://panier-antan.mmicastres.fr/public/api/boutiques/${id_boutique}/produits/${id_produit}`
+        `https://panier-antan.herokuapp.com/public/api/boutiques/${id_boutique}/produits/${id_produit}`
       );
       const data = await response.json();
       console.log(data);
+      console.log(data.produit);
       setProduit(data.produit);
     };
     getProduit();
@@ -93,11 +99,17 @@ export default function Produit({ id_boutique, id_produit }) {
             {produit.nom_produit}
           </Typography>
           <Typography variant="body1" className={classes.productOrigin}>
-            {produit.details.infos_type[0].provenance}
+            {produit.details?.infos_type?.provenance}
           </Typography>
-          <Typography variant="body2" className={classes.productTags}>
-            {/* {produit.details.tags?.join(", ")} */}
-          </Typography>
+          <div className={classes.productTags}>
+            <Chip
+              label={produit.details?.tag[0]?.tag_produit_boucherie}
+              className={classes.tag}
+              color="primary"
+            >
+              {produit.details?.tag[0]?.tag_produit_boucherie}
+            </Chip>
+          </div>
           <Typography variant="body1" className={classes.price}>
             {produit.prix_produit} €
           </Typography>
@@ -118,7 +130,7 @@ export default function Produit({ id_boutique, id_produit }) {
               id="additional-information-header"
               className={classes.accordionSummary}
             >
-              Additional Information
+              Informations supplémentaires
             </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
               {produit.infos_additionnelles}
