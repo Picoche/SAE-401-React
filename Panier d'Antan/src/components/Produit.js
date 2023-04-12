@@ -99,7 +99,7 @@ export default function Produit({ id_boutique, id_produit }) {
             {produit.nom_produit}
           </Typography>
           <Typography variant="body1" className={classes.productOrigin}>
-            {produit.details?.infos_type?.provenance}
+            Élevé à {produit.details?.infos_type?.provenance}
           </Typography>
           <div className={classes.productTags}>
             <Chip className={classes.tag} color="primary">

@@ -19,6 +19,7 @@ export default function SignIn() {
   const { userContext, setUserContext } = useContext(UserContext);
 
   const [data, setData] = useState({});
+  const [logInFeedback, setLogInFeedback] = useState(null);
 
   const updateData = (event) => {
     setData({
@@ -43,6 +44,10 @@ export default function SignIn() {
         if (data.status === 1) {
           setUserContext(data.user);
         } else {
+          setData({});
+          setLogInFeedback(
+            "Votre email ou votre mot de passe est incorrect, veuillez réessayer."
+          );
         }
       });
   };
@@ -108,6 +113,7 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </Box>
+        {logInFeedback ? logInFeedback : ""}
       </Box>
     </Container>
   );
