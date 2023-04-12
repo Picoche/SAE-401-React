@@ -55,7 +55,7 @@ function ResponsiveAppBar() {
           </Link>
         </Box>
         <ThemeProvider theme={titre}>
-        <Link>
+        <Link to="/">
           <Typography variant="h6" sx={{ fontWeight: "bold" }}>Panier d'Antan</Typography>
           </Link>
         </ThemeProvider>
