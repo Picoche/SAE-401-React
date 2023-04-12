@@ -24,6 +24,7 @@ import DispoView from "./views/DispoView";
 import ProfileView from "./views/ProfileView";
 import AccountView from "./views/AccountView";
 import LogoutView from "./views/LogoutView";
+import BoutiqueView from "./views/BoutiqueView";
 
 import UserContext from "./UserContext";
 
@@ -63,13 +64,6 @@ export default function App() {
               <Route path="/inscription" element={<InscView />} />
               <Route path="/login" element={<ConnectView />} />
               <Route path="/devcommercant" element={<InfoComView />} />
-
-              {/* //---------------------------------------------------------------------*/}
-
-              <Route path="/dispo" element={<DispoView />} />
-              <Route path="/produit" element={<ProduitView />} />
-              <Route path="/profil" element={<ProfileView />} />
-              <Route path="/account" element={<AccountView />} />
               <Route
                 path="/boutiques"
                 element={
@@ -79,6 +73,14 @@ export default function App() {
                   />
                 }
               />
+              <Route path="/boutique/:id/produits" element={<BoutiqueView />} />
+
+              {/* //---------------------------------------------------------------------*/}
+
+              <Route path="/dispo" element={<DispoView />} />
+              <Route path="/produit" element={<ProduitView />} />
+              <Route path="/profil" element={<ProfileView />} />
+              <Route path="/account" element={<AccountView />} />
               <Route path="/logout" element={<LogoutView />} />
               <Route path="/boucherie" element={<BoucherieAddProd />} />
               <Route path="/boulangerie" element={<BoulangerieAddProd />} />

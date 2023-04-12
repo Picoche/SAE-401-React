@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import { useNavigate } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import { useGeolocated } from "react-geolocated";
 import Rating from "@mui/material/Rating";
@@ -22,14 +23,19 @@ function SetMapView({ userPosition, zoom }) {
 }
 
 export default function Map({ selectedBoutique, setSelectedBoutique }) {
+  const navigate = useNavigate();
   const { userContext } = useContext(UserContext);
-
+  const [boutiqueCard, showBoutiqueCard] = useState([]);
   const [boutiquesPosition, setBoutiquesPosition] = useState([]);
   const [userPosition, setUserPosition] = useState([43.604652, 1.444209]);
   const [zoom, setZoom] = useState(14);
 
-  const handleBoutiqueSelect = useCallback((boutique) => {
+  const handleViewBoutique = useCallback((boutique) => {
     setSelectedBoutique(boutique);
+  }, []);
+
+  const handleBoutiqueSelect = useCallback((boutique) => {
+    navigate(`/boutique/${boutique.infoSupp.id_boutique}/produits`);
   }, []);
 
   const url = "https://api.geocodify.com/v2/geocode?api_key=";
@@ -46,7 +52,7 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
 
   useEffect(() => {
     const getBoutiques = () => {
-      fetch("https://panier-antan.herokuapp.com/public/api/boutiques")
+      fetch("https://panier-antan.mmicastres.fr/public/api/boutiques")
         .then((response) => response.json())
         .then((data) => {
           setBoutiquesPosition(data);
@@ -79,6 +85,7 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
       userPosition={userPosition}
       zoom={zoom}
       boutiquesPosition={boutiquesPosition}
+      handleViewBoutique={handleViewBoutique}
       handleBoutiqueSelect={handleBoutiqueSelect}
       selectedBoutique={selectedBoutique}
     />
@@ -91,6 +98,7 @@ function BuildMap({
   userPosition,
   zoom,
   boutiquesPosition,
+  handleViewBoutique,
   handleBoutiqueSelect,
   selectedBoutique,
 }) {
@@ -192,7 +200,7 @@ function BuildMap({
                 variant="contained"
                 size="small"
                 onClick={() => {
-                  handleBoutiqueSelect(details);
+                  handleViewBoutique(details);
                   isMapSelected(true);
                 }}
               >
@@ -202,12 +210,17 @@ function BuildMap({
           </Marker>
         ))}
       </MapContainer>
-      {mapSelected ? <CarteBoutique boutique={selectedBoutique} /> : null}
+      {mapSelected ? (
+        <CarteBoutique
+          boutique={selectedBoutique}
+          handleBoutiqueSelect={handleBoutiqueSelect}
+        />
+      ) : null}
     </div>
   );
 }
 
-function CarteBoutique({ boutique }) {
+function CarteBoutique({ boutique, handleBoutiqueSelect }) {
   const [photosBoutiques, setPhotosBoutiques] = useState(null);
 
   const fetchPhotos = useCallback(async () => {
@@ -241,7 +254,7 @@ function CarteBoutique({ boutique }) {
         variant="contained"
         size="small"
         onClick={() => {
-          handleBoutiqueSelect(details);
+          handleBoutiqueSelect(boutique);
         }}
       >
         Voir la boutique
