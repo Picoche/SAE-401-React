@@ -1,18 +1,144 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Typography,
+  Grid,
+  Button,
+  IconButton,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@material-ui/core";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import IconButton from "@mui/material/IconButton";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { blue } from "@mui/material/colors";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    marginTop: theme.spacing(4),
+  },
+  productImage: {
+    width: "100%",
+    height: "auto",
+    maxWidth: "500px",
+  },
+  productName: {
+    fontWeight: 700,
+    marginBottom: theme.spacing(1),
+  },
+  productOrigin: {
+    fontStyle: "italic",
+    marginBottom: theme.spacing(1),
+  },
+  productTags: {
+    marginBottom: theme.spacing(2),
+  },
+  productDescription: {
+    whiteSpace: "pre-line",
+  },
+  accordion: {
+    marginTop: theme.spacing(2),
+  },
+  accordionSummary: {
+    fontWeight: 700,
+  },
+  accordionDetails: {
+    whiteSpace: "pre-line",
+  },
+  price: {
+    fontWeight: 700,
+    marginBottom: theme.spacing(2),
+  },
+  button: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    marginLeft: "auto",
+    marginRight: "auto",
+    display: "block",
+  },
+}));
 
-export default function Produit() {
-  return <h2>Test</h2>;
+export default function Produit({ id_boutique, id_produit }) {
+  const [produit, setProduit] = React.useState([]);
+
+  useEffect(() => {
+    const getProduit = async () => {
+      const response = await fetch(
+        `https://panier-antan.mmicastres.fr/public/api/boutiques/${id_boutique}/produits/${id_produit}`
+      );
+      const data = await response.json();
+      console.log(data);
+      setProduit(data.produit);
+    };
+    getProduit();
+  }, []);
+
+  useEffect(() => {
+    console.log(produit);
+  }, [produit]);
+
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={6}>
+          <img
+            src={produit.image_produit}
+            alt={produit.nom_produit}
+            className={classes.productImage}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h3" className={classes.productName}>
+            {produit.nom_produit}
+          </Typography>
+          <Typography variant="body1" className={classes.productOrigin}>
+            {produit.details.infos_type[0].provenance}
+          </Typography>
+          <Typography variant="body2" className={classes.productTags}>
+            {/* {produit.details.tags?.join(", ")} */}
+          </Typography>
+          <Typography variant="body1" className={classes.price}>
+            {produit.prix_produit} €
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<AddShoppingCartIcon />}
+          >
+            Ajouter au panier
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <Accordion className={classes.accordion}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="additional-information-content"
+              id="additional-information-header"
+              className={classes.accordionSummary}
+            >
+              Additional Information
+            </AccordionSummary>
+            <AccordionDetails className={classes.accordionDetails}>
+              {produit.infos_additionnelles}
+            </AccordionDetails>
+          </Accordion>
+          <Accordion className={classes.accordion}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="description-content"
+              id="description-header"
+              className={classes.accordionSummary}
+            >
+              Description
+            </AccordionSummary>
+            <AccordionDetails className={classes.accordionDetails}>
+              {produit.description_produit}
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
