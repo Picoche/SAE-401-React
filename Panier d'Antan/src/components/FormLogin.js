@@ -11,9 +11,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-import UserContext from "../UserContext";
-
 import { Link } from "react-router-dom";
+
+import UserContext from "../UserContext";
 
 export default function SignIn() {
   const { userContext, setUserContext } = useContext(UserContext);
@@ -42,6 +42,7 @@ export default function SignIn() {
       .then((data) => {
         console.log(data);
         if (data.status === 1) {
+          localStorage.setItem("userContext", JSON.stringify(data.user));
           setUserContext(data.user);
         } else {
           setData({});
