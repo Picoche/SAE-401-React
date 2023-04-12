@@ -1,11 +1,29 @@
-import { Button } from "@mui/material";
+import { Button, Typography, createTheme, ThemeProvider } from "@mui/material";
 import React from "react";
 
+
 export default function InfoComView() {
+  const normal = createTheme({
+    typography: {
+      fontFamily: ["Roboto", "cursive"].join(","),
+    },
+  });
+  const titre = createTheme({
+    typography: {
+      fontFamily: ["Unbounded", "cursive"].join(","),
+    },
+  });
   return (
     <div>
-      <div className="divAccueilNC">
-        <h2 id="h2AccueilNC">Au plus proche des commerçants</h2>
+      <div className="divAccueilNC" style={{
+        display: "flex",
+        flexDirection:"column"
+      }}>
+        <ThemeProvider theme={titre}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px"}}>
+            Vous êtes commerçant et voulez vous inscrire en tant que tel ? C'est ici !
+          </Typography>
+        </ThemeProvider>
         <Button variant="contained" className="button">
           COMMERCANT
         </Button>

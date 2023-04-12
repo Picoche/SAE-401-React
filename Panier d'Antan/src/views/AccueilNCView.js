@@ -5,6 +5,13 @@ import "../styles.css";
 import { Button, Typography, createTheme, ThemeProvider } from "@mui/material";
 import "@fontsource/unbounded";
 import { Link } from "react-router-dom";
+import Googleplay from "../assets/googleplay.png";
+import Applestore from "../assets/applesotr.png";
+import QRcode from "../assets/qrcode.png";
+import shop2 from "../assets/shop_bandeau.svg";
+import shop3 from "../assets/bloc1.svg";
+import shop4 from "../assets/but2.svg";
+import shop5 from "../assets/maps3.svg";
 
 export default function AccueilNCView() {
   const normal = createTheme({
@@ -34,7 +41,7 @@ export default function AccueilNCView() {
         alignItems: "center",
       }}>
         <div className="divAccueilNC">
-          <img src={shop1} className="imgAccueilNC"></img>
+          <img src={shop2} className="imgAccueilNC"></img>
           <div>
             <ThemeProvider theme={titre}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
@@ -44,8 +51,8 @@ export default function AccueilNCView() {
             <Link to="/inscription">
               <Button variant="contained" className="button" style={{
                 borderRadius: "30%",
-                margin:"20px 15px",
-                
+                margin: "20px 15px",
+
               }}>
                 <Typography>INSCRIPTION</Typography>
               </Button>
@@ -57,17 +64,21 @@ export default function AccueilNCView() {
 
       {/*  */}
       <div style={{
-        backgroundColor: "#F5F5F5"
+        backgroundColor: "#F5F5F5",
+        display: "flex",
+        flexDirection: "row"
       }}>
-        <div className="blocAccueilNC">
+        <img src={shop3} className="imgAccueilNC"></img>
+        <div className="blocAccueilNC" style={{
+        }}>
           <ThemeProvider theme={titre}>
-            <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px" }}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color:"#FF9914" }}>
               Qu'est ce que "Panier d'Antan" ?
             </Typography>
           </ThemeProvider>
-
           <div className="blocAccueilNC">
             <ThemeProvider theme={normal}>
+            <div style={{margin:"0px 10px 0px 15px"}}>
               <Typography>
                 Différents des sites e-commerce traditionnels, Panier d’Antan
                 permet la revalorisation de nos commerces de villages au travers
@@ -79,6 +90,7 @@ export default function AccueilNCView() {
                 référence les petits magasins et commerces des villages autour de
                 vous !
               </Typography>
+              </div>
             </ThemeProvider>
           </div>
         </div>
@@ -87,12 +99,18 @@ export default function AccueilNCView() {
       {/*  */}
       <div className="blocAccueilNC">
         <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px"}} >
+          <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px",color:"#FF9914"  }} >
             Dans quel but ?
           </Typography>
         </ThemeProvider>
 
-        <div className="blocAccueilNC">
+        <div className="blocAccueilNC" style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems:"center"
+        }}>
+
           <ThemeProvider theme={normal}>
             <Typography>
               Avec l’essor des applications de livraisons de repas et de courses
@@ -105,20 +123,34 @@ export default function AccueilNCView() {
               l’authenticité.
             </Typography>
           </ThemeProvider>
+          <img src={shop4} style={{
+            height: "150px",
+            width: "250px"
+          }}></img>
+
         </div>
       </div>
 
       {/*  */}
       <div style={{
-        backgroundColor: "#F5F5F5"
+        backgroundColor: "#F5F5F5",
       }}>
-        <div className="blocAcceuilNC">
+        <div className="blocAccueilNC">
           <ThemeProvider theme={titre}>
-            <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px" }}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px",color:"#FF9914"  }}>
               Pouvons nous utiliser le site partout en France ?
             </Typography>
           </ThemeProvider>
-          <div className="blocAccueilNC">
+          <div className="blocAccueilNC" style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          alignItems:"center"
+          }}>
+          <img src={shop5} style={{
+            height: "150px",
+            width: "250px"
+          }}></img>
             <ThemeProvider theme={normal}>
               <Typography>
                 Absolument ! Vous pouvez rechercher les boutiques autour de vous
@@ -132,20 +164,31 @@ export default function AccueilNCView() {
       </div>
 
       {/*  */}
-      <div className="blocAcceuilNC">
+      <div className="blocAccueilNC" style={{
+        textAlign: "center",
+      }}>
         <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", margin:"20px 15px" }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px",color:"#FF9914"  }}>
             Mais Panier d'Antan c'est aussi une application !
           </Typography>
         </ThemeProvider>
 
-        <div className="blocAccueilNC">
+        <div className="blocAccueilNC" style={{
+          textAlign: "center",
+        }}>
           <ThemeProvider theme={normal}>
             <Typography>
               Pour Android et iOS, téléchargez l’application Panier d’Antan dès
               maintenant !
             </Typography>
           </ThemeProvider>
+        </div>
+        <div style={{
+          margin:"10px 0px 0px 0px"
+        }}>
+        <img style={{ width: 180, height: 75 }} src={Applestore}></img>
+        <img style={{ width: 180, height: 75 }} src={Googleplay}></img>
+        <img style={{ width: 75, height: 75 }} src={QRcode}></img>
         </div>
       </div>
     </div>
