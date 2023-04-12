@@ -59,21 +59,21 @@ export default function InfoComView() {
       </div>
 
       <div style={{
-         backgroundColor: "#F5F5F5",
-         display: "flex",
-         flexDirection: "row"
+        backgroundColor: "#F5F5F5",
+        display: "flex",
+        flexDirection: "row"
       }}>
-       
+
         <div>
-        <ThemeProvider theme={titre}>
-        <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color:"#FF9914" }}>
-        Comment ca marche ?
+          <ThemeProvider theme={titre}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}>
+              Comment ca marche ?
             </Typography>
-        </ThemeProvider>
+          </ThemeProvider>
 
           <div className="blocDevComNC">
-          <Typography>
-                          En vous inscrivant en tant que commerçant, vous aurez la possibilité
+            <Typography>
+              En vous inscrivant en tant que commerçant, vous aurez la possibilité
               de référencer votre (ou vos) boutique(s) sur notre application !
               Pour ce faire, il vous suffit de remplir le formulaire situé en pied
               de page. Une fois envoyé, notre équipe se chargera des derniers
@@ -81,31 +81,40 @@ export default function InfoComView() {
               compte commerçant vous indiquant les identifiants qui vous
               permettront de gérer votre (ou vos) boutique(s).
             </Typography>
-            </div>
+          </div>
         </div>
         <img src={shop3} className="imgAccueilNC"></img>
       </div>
 
       {/*  */}
       <div className="h2DevComNC">
-      <img src={shop4} className="imgAccueilNC"></img>
-
-      <ThemeProvider theme={titre}>
-        <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color:"#FF9914" }}>
-        D'accord, mais concrètement, qu'est ce que j'y gagne ?
-        </Typography>
-        </ThemeProvider>
-        <div className="blocDevComNC">
-          <p>
-            Comme vous l’avez peut-être lu sur notre page d’accueil, le but de
-            cette initiative est d’accompagner la transition numérique des
-            commerces de villages afin de les familiariser à une cible plus
-            jeune et toujours plus moderne. En clair, en vous aidant à vous
-            glisser dans la poche des jeunes, nous vous permettons d’augmenter
-            de manière potentiellement significative votre chiffre d’affaires,
-            tout en proposant à ces derniers une façon simple et rapide de
-            renouer des liens avec des commerces de qualité.
-          </p>
+        <div style={{
+          display: "flex",
+          flexDirection: "row"
+        }}>
+          <img src={shop4} className="imgAccueilNC"></img>
+          <div style={{
+             display: "flex",
+             flexDirection: "column"
+          }}>
+            <ThemeProvider theme={titre}>
+              <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}>
+                D'accord, mais concrètement, qu'est ce que j'y gagne ?
+              </Typography>
+            </ThemeProvider>
+            <div className="blocDevComNC">
+              <p>
+                Comme vous l’avez peut-être lu sur notre page d’accueil, le but de
+                cette initiative est d’accompagner la transition numérique des
+                commerces de villages afin de les familiariser à une cible plus
+                jeune et toujours plus moderne. En clair, en vous aidant à vous
+                glisser dans la poche des jeunes, nous vous permettons d’augmenter
+                de manière potentiellement significative votre chiffre d’affaires,
+                tout en proposant à ces derniers une façon simple et rapide de
+                renouer des liens avec des commerces de qualité.
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>

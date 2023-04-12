@@ -93,7 +93,11 @@ function ResponsiveConnectAppBar() {
                         <img style={{ width: 20, height: 20 }} src={PDP}></img>
                     </Box>
                 </Box>
-
+                <Box component="header" sx={{ margin: 0 }}>
+                    <Box>
+                        <img style={{ width: 20, height: 20 }} src={Deco}></img>
+                    </Box>
+                </Box>
             </div>
         </div>
 
