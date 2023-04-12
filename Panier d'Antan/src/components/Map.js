@@ -275,8 +275,12 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
 
 
 
-
-    <Card variant="outlined" sx={{ width: 320 }}>
+<div style={{
+  marginTop: "35px",
+  display: "flex",
+  justifyContent: "center",
+}}>
+    <Card variant="outlined" sx={{ width: 400, }}>
       <CardOverflow>
         <AspectRatio ratio="2">
           <img
@@ -306,6 +310,36 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
       <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
         {boutique.address[0].long_name} {boutique.address[1].long_name}
       </Typography>
+      <div style={{
+        display: "flex",
+        flexDirection :"row",
+        justifyContent: "center",
+       textAlign:"center"
+      }}>
+      <Rating
+                  name="read-only"
+                  value={boutique.rating}
+                  precision={0.5}
+                  readOnly
+                />
+
+      <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
+         ({boutique.ratingNumber})
+      </Typography>
+      </div>
+      <div style={{
+        margin:"0px 0px 15px 0px"
+      }}>
+      <Button 
+        variant="contained"
+        size="small"
+        onClick={() => {
+          handleBoutiqueSelect(boutique);
+        }}
+      >
+        Voir la boutique
+      </Button>
+      </div>
       <Divider inset="context" />
       <CardOverflow
         variant="soft"
@@ -318,14 +352,24 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
         }}
       >
         <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          6.3k views
+          {boutique.hours.weekday_text[0]} 
         </Typography>
-        <Divider orientation="vertical" />
         <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          {boutique.hours.weekday_text[0]} {boutique.hours.weekday_text[1]} {boutique.hours.weekday_text[2]} {boutique.hours.weekday_text[3]} {boutique.hours.weekday_text[4]} {boutique.hours.weekday_text[5]} {boutique.hours.weekday_text[6]}
+          {boutique.hours.weekday_text[1]} 
         </Typography>
+        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+          {boutique.hours.weekday_text[2]} 
+        </Typography>
+        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+          {boutique.hours.weekday_text[4]} 
+        </Typography>
+        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+          {boutique.hours.weekday_text[5]} 
+        </Typography>
+       
       </CardOverflow>
     </Card>
+    </div>
 
   );
 }
