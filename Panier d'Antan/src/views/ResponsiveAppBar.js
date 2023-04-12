@@ -61,7 +61,8 @@ function ResponsiveAppBar() {
         display: "flex",
         justifyContent: "end",
         alignItems: "left",
-        gap: "2rem"
+        gap: "2rem",
+        color: "black"
       }}>
         <ThemeProvider theme={titre}>
           <Link to="/devcommercant">
