@@ -8,11 +8,11 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { Link } from "react-router-dom";
 import Logo from "../assets/Logo_Le_panier_dantan.png";
 import Support from "../assets/support.png";
-// import UserContext from "../UserContext";
+import Deco from "../assets/deco.png";
+
 
 
 function ResponsiveAppBar() {
-  // const { userContext } = useContext(UserContext);
 
   const normal = createTheme({
     typography: {
@@ -81,6 +81,11 @@ function ResponsiveAppBar() {
         <Box component="header" sx={{ margin: 0 }}>
           <Box>
             <img style={{ width: 20, height: 20 }} src={Support}></img>
+          </Box>
+        </Box>
+        <Box component="header" sx={{ margin: 0 }}>
+          <Box>
+            <img style={{ width: 20, height: 20 }} src={Deco}></img>
           </Box>
         </Box>
       </div>
