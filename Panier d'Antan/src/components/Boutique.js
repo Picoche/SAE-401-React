@@ -37,9 +37,12 @@ export default function Boutique({ id }) {
   const { userContext } = useContext(UserContext);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const ViewProduit = useCallback((e) => {
-    navigate(`/boutique/${id}/produits/${e.target.dataset.id}`);
-  }, []);
+  const ViewProduit = useCallback(
+    (e) => {
+      navigate(`/boutique/${id}/produits/${e.target.dataset.id}`);
+    },
+    [id, navigate]
+  );
 
   const handleFavoriteClick = () => {
     setIsFavorite(!isFavorite);
@@ -53,7 +56,7 @@ export default function Boutique({ id }) {
   const [boutique, setBoutique] = useState([]);
   const [produits, setProduits] = useState([]);
 
-  useCallback(() => {
+  useEffect(() => {
     const getBoutique = async () => {
       const response = await fetch(
         `https://panier-antan.herokuapp.com/public/api/boutiques/${id}/produits`
@@ -65,7 +68,7 @@ export default function Boutique({ id }) {
       setProduits(data.details ? Object.values(data.details) : []);
     };
     getBoutique();
-  }, []);
+  }, [id]);
 
   return (
     <div>
