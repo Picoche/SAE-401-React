@@ -6,14 +6,14 @@ import { useGeolocated } from "react-geolocated";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
-import AspectRatio from '@mui/joy/AspectRatio';
-import Card from '@mui/joy/Card';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Divider from '@mui/joy/Divider';
-import Typography from '@mui/joy/Typography';
-import IconButton from '@mui/joy/IconButton';
-import Link from '@mui/joy/Link';
-import Favorite from '@mui/icons-material/Favorite';
+import AspectRatio from "@mui/joy/AspectRatio";
+import Card from "@mui/joy/Card";
+import CardOverflow from "@mui/joy/CardOverflow";
+import Divider from "@mui/joy/Divider";
+import Typography from "@mui/joy/Typography";
+import IconButton from "@mui/joy/IconButton";
+import Link from "@mui/joy/Link";
+import Favorite from "@mui/icons-material/Favorite";
 
 import UserContext from "../UserContext";
 
@@ -250,128 +250,145 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
   }, [fetchPhotos]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: "5px",
-        borderColor: " yellow"
-
-      }}
-    >
-      <h3>{boutique.infoSupp.nom_boutique}</h3>
-      <img src={photosBoutiques} style={{ marginBottom: "2rem" }}></img>
-      <Button
-        variant="contained"
-        size="small"
-        onClick={() => {
-          handleBoutiqueSelect(boutique);
+    (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          borderWidth: "5px",
+          borderColor: " yellow",
         }}
       >
-        Voir la boutique
-      </Button>
-    </div>,
-
-
-
-<div style={{
-  marginTop: "35px",
-  display: "flex",
-  justifyContent: "center",
-}}>
-    <Card variant="outlined" sx={{ width: 400, }}>
-      <CardOverflow>
-        <AspectRatio ratio="2">
-          <img
-            src={photosBoutiques} style={{ marginBottom: "2rem" }}
-          />
-        </AspectRatio>
-        <IconButton
-          aria-label="Like minimal photography"
-          size="md"
-          variant="solid"
-          color="danger"
-          sx={{
-            position: 'absolute',
-            zIndex: 2,
-            borderRadius: '50%',
-            right: '1rem',
-            bottom: 0,
-            transform: 'translateY(50%)',
+        <h3>{boutique.infoSupp.nom_boutique}</h3>
+        <img src={photosBoutiques} style={{ marginBottom: "2rem" }}></img>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => {
+            handleBoutiqueSelect(boutique);
           }}
         >
-          <Favorite />
-        </IconButton>
-      </CardOverflow>
-      <Typography level="h2" sx={{ fontSize: 'md', mt: 2 }}>
-        {boutique.infoSupp.nom_boutique}
-      </Typography>
-      <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
-        {boutique.address[0].long_name} {boutique.address[1].long_name}
-      </Typography>
-      <div style={{
-        display: "flex",
-        flexDirection :"row",
-        justifyContent: "center",
-       textAlign:"center"
-      }}>
-      <Rating
-                  name="read-only"
-                  value={boutique.rating}
-                  precision={0.5}
-                  readOnly
-                />
-
-      <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
-         ({boutique.ratingNumber})
-      </Typography>
+          Voir la boutique
+        </Button>
       </div>
-      <div style={{
-        margin:"0px 0px 15px 0px"
-      }}>
-      <Button 
-        variant="contained"
-        size="small"
-        onClick={() => {
-          handleBoutiqueSelect(boutique);
+    ),
+    (
+      <div
+        style={{
+          marginTop: "35px",
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        Voir la boutique
-      </Button>
-      </div>
-      <Divider inset="context" />
-      <CardOverflow
-        variant="soft"
-        sx={{
-          display: 'flex',
-          gap: 1.5,
-          py: 1.5,
-          px: 'var(--Card-padding)',
-          bgcolor: 'background.level1',
-        }}
-      >
-        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          {boutique.hours.weekday_text[0]} 
-        </Typography>
-        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          {boutique.hours.weekday_text[1]} 
-        </Typography>
-        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          {boutique.hours.weekday_text[2]} 
-        </Typography>
-        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          {boutique.hours.weekday_text[4]} 
-        </Typography>
-        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-          {boutique.hours.weekday_text[5]} 
-        </Typography>
-       
-      </CardOverflow>
-    </Card>
-    </div>
+        <Card variant="outlined" sx={{ width: 400 }}>
+          <CardOverflow>
+            <AspectRatio ratio="2">
+              <img src={photosBoutiques} style={{ marginBottom: "2rem" }} />
+            </AspectRatio>
+            <IconButton
+              aria-label="Like minimal photography"
+              size="md"
+              variant="solid"
+              color="danger"
+              sx={{
+                position: "absolute",
+                zIndex: 2,
+                borderRadius: "50%",
+                right: "1rem",
+                bottom: 0,
+                transform: "translateY(50%)",
+              }}
+            >
+              <Favorite />
+            </IconButton>
+          </CardOverflow>
+          <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
+            {boutique.infoSupp.nom_boutique}
+          </Typography>
+          <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
+            {boutique.address[0].long_name} {boutique.address[1].long_name}
+          </Typography>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <Rating
+              name="read-only"
+              value={boutique.rating}
+              precision={0.5}
+              readOnly
+            />
 
+            <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
+              ({boutique.ratingNumber})
+            </Typography>
+          </div>
+          <div
+            style={{
+              margin: "0px 0px 15px 0px",
+            }}
+          >
+            <Button
+              variant="contained"
+              size="small"
+              onClick={() => {
+                handleBoutiqueSelect(boutique);
+              }}
+            >
+              Voir la boutique
+            </Button>
+          </div>
+          <Divider inset="context" />
+          <CardOverflow
+            variant="soft"
+            sx={{
+              display: "flex",
+              gap: 1.5,
+              py: 1.5,
+              px: "var(--Card-padding)",
+              bgcolor: "background.level1",
+            }}
+          >
+            <Typography
+              level="body3"
+              sx={{ fontWeight: "md", color: "text.secondary" }}
+            >
+              {boutique.hours.weekday_text[0]}
+            </Typography>
+            <Typography
+              level="body3"
+              sx={{ fontWeight: "md", color: "text.secondary" }}
+            >
+              {boutique.hours.weekday_text[1]}
+            </Typography>
+            <Typography
+              level="body3"
+              sx={{ fontWeight: "md", color: "text.secondary" }}
+            >
+              {boutique.hours.weekday_text[2]}
+            </Typography>
+            <Typography
+              level="body3"
+              sx={{ fontWeight: "md", color: "text.secondary" }}
+            >
+              {boutique.hours.weekday_text[4]}
+            </Typography>
+            <Typography
+              level="body3"
+              sx={{ fontWeight: "md", color: "text.secondary" }}
+            >
+              {boutique.hours.weekday_text[5]}
+            </Typography>
+          </CardOverflow>
+        </Card>
+      </div>
+    )
   );
 }
 
@@ -386,5 +403,4 @@ const styles = {
     justifyContent: "start",
     alignItems: "center",
   },
-
 };
