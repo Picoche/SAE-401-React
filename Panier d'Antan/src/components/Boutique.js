@@ -72,11 +72,18 @@ export default function Boutique({ id }) {
 
   return (
     <div>
-      <ThemeProvider theme={titre}>
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-          {boutique.nom_boutique}
-        </Typography>
-      </ThemeProvider>
+      <div style={{
+        backgroundColor:"#F5F5F5"
+      }}>
+        <ThemeProvider theme={titre}>
+          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+            {boutique.nom_boutique}
+          </Typography>
+          <Typography>
+            {boutique.adresse_boutique}
+          </Typography>
+        </ThemeProvider>
+      </div>
       <Container
         style={{
           display: "flex",

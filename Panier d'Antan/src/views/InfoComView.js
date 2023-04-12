@@ -94,8 +94,8 @@ export default function InfoComView() {
         }}>
           <img src={shop4} className="imgAccueilNC"></img>
           <div style={{
-             display: "flex",
-             flexDirection: "column"
+            display: "flex",
+            flexDirection: "column"
           }}>
             <ThemeProvider theme={titre}>
               <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}>
@@ -118,33 +118,61 @@ export default function InfoComView() {
         </div>
 
       </div>
-      <div className="h2DevComNC">
-        <h3>Je ne suis pas très à l'aise avec ce type d'outils ?</h3>
-        <div className="blocDevComNC">
-          <p>
-            Aucun problème ! Notre application a été pensée pour vous offrir une
-            interface aussi complète que simple d’utilisation ! Au travers
-            d’icônes facilement identifiables et d’un guide d’utilisation pensé
-            pour vous, nous sommes confiant dans le court temps d’adaptation
-            nécessaire à sa pleine utilisation. Bien sûr, si vous rencontrez
-            tout de même des difficultés vis-à-vis de son utilisation, vous avez
-            à votre disposition l’espace FAQ-Support, accessible en cliquant sur
-            l’icône ?, en haut à droite de la page. Si les réponses déjà
-            présentes ne résolvent pas votre problème, vous pourrez toujours
-            envoyer un mail à notre équipe de support via le formulaire situé au
-            pied de cette page FAQ-Support, laquelle reviendra alors vers vous
-            aussi rapidement que possible afin d’éclairer les zones d’ombres.
-          </p>
+      <div className="h2DevComNC" style={{
+        backgroundColor: "#F5F5F5",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
+      }}>
+        <div>
+          <ThemeProvider theme={titre}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}>
+              Je ne suis pas très à l'aise avec ce type d'outils ?
+            </Typography>
+          </ThemeProvider>
+          <div className="blocDevComNC">
+            <p>
+              Aucun problème ! Notre application a été pensée pour vous offrir une
+              interface aussi complète que simple d’utilisation ! Au travers
+              d’icônes facilement identifiables et d’un guide d’utilisation pensé
+              pour vous, nous sommes confiant dans le court temps d’adaptation
+              nécessaire à sa pleine utilisation. Bien sûr, si vous rencontrez
+              tout de même des difficultés vis-à-vis de son utilisation, vous avez
+              à votre disposition l’espace FAQ-Support, accessible en cliquant sur
+              l’icône ?, en haut à droite de la page. Si les réponses déjà
+              présentes ne résolvent pas votre problème, vous pourrez toujours
+              envoyer un mail à notre équipe de support via le formulaire situé au
+              pied de cette page FAQ-Support, laquelle reviendra alors vers vous
+              aussi rapidement que possible afin d’éclairer les zones d’ombres.
+            </p>
+          </div>
+        </div>
+        <div style={{
+          flex: "row",
+          alignItems: "center"
+        }}>
+          <img src={shop5} className="imgAccueilNC"></img>
         </div>
       </div>
       <div className="h2DevComNC">
-        <h3>
-          Convaincus ? Alors n'attendez plus, créez votre compte commerçant dès
-          maintenant !
-        </h3>
-        <Button variant="contained" className="button">
-          COMMERCANT
-        </Button>
+        <ThemeProvider theme={titre}>
+          <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}>
+            Convaincus ? Alors n'attendez plus, créez votre compte commerçant dès
+            maintenant !
+          </Typography>
+        </ThemeProvider>
+        <div style={{
+         display:"flex",
+         flexDirection:"row",
+         justifyContent:"center"
+        }}>
+          <Button variant="contained" className="button" style={{
+            borderRadius: "30%",
+            margin: "20px 15px",
+          }}>
+            <Typography>COMMERCANT</Typography>
+          </Button>
+        </div>
         <div className="blocDevComNC"></div>
       </div>
     </div >

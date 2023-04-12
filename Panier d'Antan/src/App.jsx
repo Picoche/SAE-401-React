@@ -31,6 +31,7 @@ import Container from "@mui/material/Container";
 import UserContext, { UserProvider } from "./UserContext";
 
 export default function App() {
+  const [photosBoutiques, setPhotosBoutiques] = useState(null);
   const [selectedBoutique, setSelectedBoutique] = useState([]);
   return (
     <div className="App">
@@ -54,7 +55,7 @@ export default function App() {
                   />
                 }
               />
-              <Route path="/boutique/:id/produits" element={<BoutiqueView />} />
+              <Route path="/boutique/:id/produits" element={<BoutiqueView photosBoutiques={photosBoutiques} setPhotosBoutiques={setPhotosBoutiques} />} />
               <Route
                 path="/boutique/:id/produits/:id_produit"
                 element={<ProduitView />}
