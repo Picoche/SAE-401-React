@@ -6,6 +6,14 @@ import { useGeolocated } from "react-geolocated";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import Slider from "@mui/material/Slider";
+import AspectRatio from '@mui/joy/AspectRatio';
+import Card from '@mui/joy/Card';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Divider from '@mui/joy/Divider';
+import Typography from '@mui/joy/Typography';
+import IconButton from '@mui/joy/IconButton';
+import Link from '@mui/joy/Link';
+import Favorite from '@mui/icons-material/Favorite';
 
 import UserContext from "../UserContext";
 import { map } from "leaflet";
@@ -32,6 +40,7 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
 
   const handleViewBoutique = useCallback((boutique) => {
     setSelectedBoutique(boutique);
+    console.log(boutique);
   }, []);
 
   const handleBoutiqueSelect = useCallback((boutique) => {
@@ -246,6 +255,9 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        borderWidth: "5px",
+        borderColor: " yellow"
+
       }}
     >
       <h3>{boutique.infoSupp.nom_boutique}</h3>
@@ -259,7 +271,62 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
       >
         Voir la boutique
       </Button>
-    </div>
+    </div>,
+
+
+
+
+    <Card variant="outlined" sx={{ width: 320 }}>
+      <CardOverflow>
+        <AspectRatio ratio="2">
+          <img
+            src={photosBoutiques} style={{ marginBottom: "2rem" }}
+          />
+        </AspectRatio>
+        <IconButton
+          aria-label="Like minimal photography"
+          size="md"
+          variant="solid"
+          color="danger"
+          sx={{
+            position: 'absolute',
+            zIndex: 2,
+            borderRadius: '50%',
+            right: '1rem',
+            bottom: 0,
+            transform: 'translateY(50%)',
+          }}
+        >
+          <Favorite />
+        </IconButton>
+      </CardOverflow>
+      <Typography level="h2" sx={{ fontSize: 'md', mt: 2 }}>
+        {boutique.infoSupp.nom_boutique}
+      </Typography>
+      <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
+        {boutique.address[0].long_name} {boutique.address[1].long_name}
+      </Typography>
+      <Divider inset="context" />
+      <CardOverflow
+        variant="soft"
+        sx={{
+          display: 'flex',
+          gap: 1.5,
+          py: 1.5,
+          px: 'var(--Card-padding)',
+          bgcolor: 'background.level1',
+        }}
+      >
+        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+          6.3k views
+        </Typography>
+        <Divider orientation="vertical" />
+        <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+          {boutique.hours.weekday_text[0]} {boutique.hours.weekday_text[1]} {boutique.hours.weekday_text[2]} {boutique.hours.weekday_text[3]} {boutique.hours.weekday_text[4]} {boutique.hours.weekday_text[5]} {boutique.hours.weekday_text[6]}
+        </Typography>
+      </CardOverflow>
+    </Card>
+
   );
 }
 
@@ -274,7 +341,20 @@ const styles = {
     justifyContent: "start",
     alignItems: "center",
   },
+
+
+
+
+
+
+
+
+
+
+
 };
+
+
 
 // function CarteBoutique({ boutique }) {
 //   const [photosBoutiques, setPhotosBoutiques] = useState("");
