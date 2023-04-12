@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 export default function SignIn() {
   const { userContext, setUserContext } = useContext(UserContext);
 
+  const [logInFeedback, setLogInFeedback] = useState([]);
   const [data, setData] = useState({});
 
   const updateData = (event) => {
@@ -42,6 +43,7 @@ export default function SignIn() {
         console.log(data);
         if (data.status === 1) {
           setUserContext(data.user);
+        } else {
         }
       });
   };

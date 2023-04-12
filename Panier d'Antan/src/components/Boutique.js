@@ -53,7 +53,7 @@ export default function Boutique({ id }) {
   const [boutique, setBoutique] = useState([]);
   const [produits, setProduits] = useState([]);
 
-  useEffect(() => {
+  useCallback(() => {
     const getBoutique = async () => {
       const response = await fetch(
         `https://panier-antan.herokuapp.com/public/api/boutiques/${id}/produits`
