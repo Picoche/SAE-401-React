@@ -52,7 +52,7 @@ export default function SignUp() {
     event.preventDefault();
     console.log(user);
     if (user.MDP === user.confmdp) {
-      fetch("https://panier-antan.mmicastres.fr/api/inscription", {
+      fetch("https://panier-antan.herokuapp.com/public/api/inscription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
