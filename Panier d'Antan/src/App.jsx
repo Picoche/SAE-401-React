@@ -4,14 +4,11 @@ import React, { useState, useEffect, useContext } from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
 import ResponsiveAppBar from "./views/ResponsiveAppBar";
-import ResponsiveConnectAppBar from "./Views/ResponsiveConnectAppBar";
-// import Header from "./components/Header";
-import AccueilNCView from "./views/AccueilNCView";
+import AccueilView from "./views/AccueilView";
 import InscView from "./views/InscView";
 import Footer from "./components/Footer";
 import ConnectView from "./views/ConnectView";
 import InfoComView from "./views/InfoComView";
-import Typography from "@mui/material/Typography";
 import BoucherieAddProd from "./views/BoucherieAddProdView";
 import BoulangerieAddProd from "./views/BoulangerieAddView";
 import MapView from "./views/MapView";
@@ -29,26 +26,26 @@ import BoutiqueView from "./views/BoutiqueView";
 
 import Container from "@mui/material/Container";
 
-import UserContext, { UserProvider } from "./UserContext";
+import { UserProvider } from "./UserContext";
 
 export default function App() {
   const [photosBoutiques, setPhotosBoutiques] = useState(null);
   const [selectedBoutique, setSelectedBoutique] = useState([]);
-  const { user } = useContext(UserContext);
   return (
     <div className="App">
       <BrowserRouter>
-        {user ? <ResponsiveConnectAppBar /> : <ResponsiveAppBar />}
+        <UserProvider>
+          <ResponsiveAppBar />
+        </UserProvider>
         <Container sx={{ py: 10, minHeight: 500 }} maxWidth="xl">
-          <Typography></Typography>
           <UserProvider>
             <Routes>
-              <Route path="/" element={<AccueilNCView />} />
+              <Route path="/" element={<AccueilView />} />
               <Route path="/inscription" element={<InscView />} />
               <Route path="/login" element={<ConnectView />} />
               <Route path="/devcommercant" element={<InfoComView />} />
               <Route
-                path="/boutiques"
+                path="/carte"
                 element={
                   <MapView
                     selectedBoutique={selectedBoutique}
@@ -56,7 +53,15 @@ export default function App() {
                   />
                 }
               />
-              <Route path="/boutique/:id/produits" element={<BoutiqueView photosBoutiques={photosBoutiques} setPhotosBoutiques={setPhotosBoutiques} />} />
+              <Route
+                path="/boutique/:id/produits"
+                element={
+                  <BoutiqueView
+                    photosBoutiques={photosBoutiques}
+                    setPhotosBoutiques={setPhotosBoutiques}
+                  />
+                }
+              />
               <Route
                 path="/boutique/:id/produits/:id_produit"
                 element={<ProduitView />}

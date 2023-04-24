@@ -13,17 +13,18 @@ import Container from "@mui/material/Container";
 
 import { Link, useNavigate } from "react-router-dom";
 
-import UserContext from "../UserContext";
+import { UserContext } from "../UserContext";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { userContext, setUserContext } = useContext(UserContext);
+  const { user, logIn } = useContext(UserContext);
 
   const [data, setData] = useState({});
   const [logInFeedback, setLogInFeedback] = useState(null);
 
-  const logInSuccess = useCallback(() => {
-    navigate("/boutiques");
+  const logInSuccess = useCallback((data) => {
+    logIn(data.user);
+    navigate("/cartes");
   }, []);
 
   const updateData = (event) => {
@@ -47,9 +48,7 @@ export default function SignIn() {
       .then((data) => {
         console.log(data);
         if (data.status === 1) {
-          localStorage.setItem("userContext", JSON.stringify(data.user));
-          setUserContext(data.user);
-          logInSuccess();
+          logInSuccess(data);
         } else {
           setLogInFeedback(
             "Votre email ou votre mot de passe est incorrect, veuillez réessayer."
@@ -59,8 +58,8 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    console.log(userContext);
-  }, [userContext]);
+    console.log(user);
+  }, [user]);
 
   return (
     <Container component="main" maxWidth="xs">

@@ -13,7 +13,7 @@ import shop3 from "../assets/bloc1.svg";
 import shop4 from "../assets/but2.svg";
 import shop5 from "../assets/maps3.svg";
 
-export default function AccueilNCView() {
+export default function Accueil() {
   const normal = createTheme({
     typography: {
       fontFamily: ["Roboto", "cursive"].join(","),
@@ -34,12 +34,14 @@ export default function AccueilNCView() {
         textAlign: "center",
       }}
     >
-      <div style={{
-        backgroundColor: "#FFFF",
-        textAlign: "center",
+      <div
+        style={{
+          backgroundColor: "#FFFF",
+          textAlign: "center",
 
-        alignItems: "center",
-      }}>
+          alignItems: "center",
+        }}
+      >
         <div className="divAccueilNC">
           <img src={shop2} className="imgAccueilNC"></img>
           <div>
@@ -49,11 +51,14 @@ export default function AccueilNCView() {
               </Typography>
             </ThemeProvider>
             <Link to="/inscription">
-              <Button variant="contained" className="button" style={{
-                borderRadius: "30%",
-                margin: "20px 15px",
-
-              }}>
+              <Button
+                variant="contained"
+                className="button"
+                style={{
+                  borderRadius: "30%",
+                  margin: "20px 15px",
+                }}
+              >
                 <Typography>INSCRIPTION</Typography>
               </Button>
             </Link>
@@ -63,33 +68,37 @@ export default function AccueilNCView() {
       </div>
 
       {/*  */}
-      <div style={{
-        backgroundColor: "#F5F5F5",
-        display: "flex",
-        flexDirection: "row"
-      }}>
+      <div
+        style={{
+          backgroundColor: "#F5F5F5",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
         <img src={shop3} className="imgAccueilNC"></img>
-        <div className="blocAccueilNC" style={{
-        }}>
+        <div className="blocAccueilNC" style={{}}>
           <ThemeProvider theme={titre}>
-            <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px", color:"#FF9914" }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}
+            >
               Qu'est ce que "Panier d'Antan" ?
             </Typography>
           </ThemeProvider>
           <div className="blocAccueilNC">
             <ThemeProvider theme={normal}>
-            <div style={{margin:"0px 10px 0px 15px"}}>
-              <Typography>
-                Différents des sites e-commerce traditionnels, Panier d’Antan
-                permet la revalorisation de nos commerces de villages au travers
-                d’un moyen pour ces derniers de se digitaliser, et ainsi de suivre
-                la tendance du commerce en ligne, si attrayante auprès des jeunes.
-                Créé en 2023 et géré par des professionnels, Panier d’Antan permet
-                aux commerçants de gérer facilement leur boutique et leurs
-                produits. En bref, Panier d’Antan est un site e-commerce qui
-                référence les petits magasins et commerces des villages autour de
-                vous !
-              </Typography>
+              <div style={{ margin: "0px 10px 0px 15px" }}>
+                <Typography>
+                  Différents des sites e-commerce traditionnels, Panier d’Antan
+                  permet la revalorisation de nos commerces de villages au
+                  travers d’un moyen pour ces derniers de se digitaliser, et
+                  ainsi de suivre la tendance du commerce en ligne, si
+                  attrayante auprès des jeunes. Créé en 2023 et géré par des
+                  professionnels, Panier d’Antan permet aux commerçants de gérer
+                  facilement leur boutique et leurs produits. En bref, Panier
+                  d’Antan est un site e-commerce qui référence les petits
+                  magasins et commerces des villages autour de vous !
+                </Typography>
               </div>
             </ThemeProvider>
           </div>
@@ -99,18 +108,23 @@ export default function AccueilNCView() {
       {/*  */}
       <div className="blocAccueilNC">
         <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px",color:"#FF9914"  }} >
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}
+          >
             Dans quel but ?
           </Typography>
         </ThemeProvider>
 
-        <div className="blocAccueilNC" style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems:"center"
-        }}>
-
+        <div
+          className="blocAccueilNC"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <ThemeProvider theme={normal}>
             <Typography>
               Avec l’essor des applications de livraisons de repas et de courses
@@ -123,34 +137,47 @@ export default function AccueilNCView() {
               l’authenticité.
             </Typography>
           </ThemeProvider>
-          <img src={shop4} style={{
-            height: "150px",
-            width: "250px"
-          }}></img>
-
+          <img
+            src={shop4}
+            style={{
+              height: "150px",
+              width: "250px",
+            }}
+          ></img>
         </div>
       </div>
 
       {/*  */}
-      <div style={{
-        backgroundColor: "#F5F5F5",
-      }}>
+      <div
+        style={{
+          backgroundColor: "#F5F5F5",
+        }}
+      >
         <div className="blocAccueilNC">
           <ThemeProvider theme={titre}>
-            <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px",color:"#FF9914"  }}>
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}
+            >
               Pouvons nous utiliser le site partout en France ?
             </Typography>
           </ThemeProvider>
-          <div className="blocAccueilNC" style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          alignItems:"center"
-          }}>
-          <img src={shop5} style={{
-            height: "150px",
-            width: "250px"
-          }}></img>
+          <div
+            className="blocAccueilNC"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={shop5}
+              style={{
+                height: "150px",
+                width: "250px",
+              }}
+            ></img>
             <ThemeProvider theme={normal}>
               <Typography>
                 Absolument ! Vous pouvez rechercher les boutiques autour de vous
@@ -164,18 +191,27 @@ export default function AccueilNCView() {
       </div>
 
       {/*  */}
-      <div className="blocAccueilNC" style={{
-        textAlign: "center",
-      }}>
+      <div
+        className="blocAccueilNC"
+        style={{
+          textAlign: "center",
+        }}
+      >
         <ThemeProvider theme={titre}>
-          <Typography variant="h5" sx={{ fontWeight: "bold", margin: "20px 15px",color:"#FF9914"  }}>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", margin: "20px 15px", color: "#FF9914" }}
+          >
             Mais Panier d'Antan c'est aussi une application !
           </Typography>
         </ThemeProvider>
 
-        <div className="blocAccueilNC" style={{
-          textAlign: "center",
-        }}>
+        <div
+          className="blocAccueilNC"
+          style={{
+            textAlign: "center",
+          }}
+        >
           <ThemeProvider theme={normal}>
             <Typography>
               Pour Android et iOS, téléchargez l’application Panier d’Antan dès
@@ -183,12 +219,14 @@ export default function AccueilNCView() {
             </Typography>
           </ThemeProvider>
         </div>
-        <div style={{
-          margin:"10px 0px 0px 0px"
-        }}>
-        <img style={{ width: 180, height: 75 }} src={Applestore}></img>
-        <img style={{ width: 180, height: 75 }} src={Googleplay}></img>
-        <img style={{ width: 75, height: 75 }} src={QRcode}></img>
+        <div
+          style={{
+            margin: "10px 0px 0px 0px",
+          }}
+        >
+          <img style={{ width: 180, height: 75 }} src={Applestore}></img>
+          <img style={{ width: 180, height: 75 }} src={Googleplay}></img>
+          <img style={{ width: 75, height: 75 }} src={QRcode}></img>
         </div>
       </div>
     </div>

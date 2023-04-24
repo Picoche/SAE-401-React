@@ -15,13 +15,8 @@ import IconButton from "@mui/joy/IconButton";
 import Link from "@mui/joy/Link";
 import Favorite from "@mui/icons-material/Favorite";
 
-import UserContext from "../UserContext";
-
-const GET_LOCATION_URL = "http://localhost:4000/boutiques/places?input=";
-const BOUTIQUES_DETAILS_URL =
-  "http://localhost:4000/boutiques/places/details?place_id=";
-const BOUTIQUE_PHOTOS_URL =
-  "http://localhost:4000/boutiques/places/photo?photoreference=";
+import { UserContext } from "../UserContext";
+import getShopInfo, { getUserLocation } from "../ExternalAPICalls";
 
 function SetMapView({ userPosition, zoom }) {
   const map = useMap();
@@ -31,7 +26,7 @@ function SetMapView({ userPosition, zoom }) {
 
 export default function Map({ selectedBoutique, setSelectedBoutique }) {
   const navigate = useNavigate();
-  const { userContext } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [boutiqueCard, showBoutiqueCard] = useState([]);
   const [boutiquesPosition, setBoutiquesPosition] = useState([]);
   const [userPosition, setUserPosition] = useState([43.604652, 1.444209]);
@@ -43,8 +38,9 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
   }, []);
 
   const handleBoutiqueSelect = useCallback((boutique) => {
-    navigate(`/boutique/${boutique.infoSupp.id_boutique}/produits`, {
-      "boutique": boutique
+    console.log(boutique);
+    navigate(`/boutique/${boutique.id}/produits`, {
+      boutique: boutique,
     });
   }, []);
 
@@ -62,7 +58,7 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
 
   useEffect(() => {
     const getBoutiques = () => {
-      fetch("https://panier-antan.herokuapp.com/public/api/boutiques")
+      fetch("https://panier-antan.mmicastres.fr/public/api/boutiques")
         .then((response) => response.json())
         .then((data) => {
           setBoutiquesPosition(data);
@@ -73,18 +69,15 @@ export default function Map({ selectedBoutique, setSelectedBoutique }) {
 
   useEffect(() => {
     if (coords) {
-      fetch(`${GET_LOCATION_URL}${userContext.adresse}`).then((response) => {
-        response.json().then((data) => {
-          console.log(data.candidates);
-          setUserPosition([
-            data.candidates[0].geometry.location.lat,
-            data.candidates[0].geometry.location.lng,
-          ]);
-          console.log(userPosition);
-        });
-      });
+      getUserLocation(user.adresse).then((data) =>
+        setUserPosition([
+          data.candidates[0].geometry.location.lat,
+          data.candidates[0].geometry.location.lng,
+        ])
+      );
+      // console.log(userPosition);
     }
-  }, [coords, userContext.adresse, url, apiKey]); 
+  }, [coords, user.adresse, url, apiKey]);
 
   return !isGeolocationAvailable ? (
     <div>Votre navigateur ne supporte pas la géolocalisation</div>
@@ -117,67 +110,23 @@ function BuildMap({
 
   useEffect(() => {
     const getPlacesId = async () => {
-      const newPlacesId = await Promise.allSettled(
+      const list = await Promise.allSettled(
         boutiquesPosition.map(async (boutique) => {
-          const response = await fetch(
-            `${GET_LOCATION_URL}${boutique.adresse_boutique}+${boutique.nom_boutique}`
-          );
-          const data = await response.json();
-          if (data.candidates) {
-            return {
-              place_id: data.candidates[0].place_id,
-              info: boutique,
-            };
-          } else {
-            return null;
-          }
+          const data = await getShopInfo(boutique);
+          return data;
         })
       );
-      // Filter out any null values returned by the Promise.allSettled function
-      const filteredPlacesId = newPlacesId
-        .filter((place) => place.status === "fulfilled")
-        .map((place) => place.value);
-      setDetailsBoutiques([]);
-      // Only call getDetailsBoutiques if there are places to get details for
-      if (filteredPlacesId.length > 0) {
-        getDetailsBoutiques(filteredPlacesId);
-      }
+      const dataList = list
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value);
+      setDetailsBoutiques(dataList);
     };
     getPlacesId();
   }, [boutiquesPosition]);
 
-  const getDetailsBoutiques = async (placesid) => {
-    const newDetailsBoutiques = await Promise.allSettled(
-      placesid.map(async (place) => {
-        const response = await fetch(
-          `${BOUTIQUES_DETAILS_URL}${place.place_id}`
-        );
-        const data = await response.json();
-        if (data.result) {
-          return {
-            position: [
-              data.result.geometry.location.lat,
-              data.result.geometry.location.lng,
-            ],
-            rating: data.result.rating,
-            ratingNumber: data.result.user_ratings_total,
-            hours: data.result.opening_hours,
-            reviews: data.result.reviews,
-            address: data.result.address_components,
-            photos: data.result.photos,
-            infoSupp: place.info,
-          };
-        } else {
-          return null;
-        }
-      })
-    );
-
-    const filteredDetailsBoutiques = newDetailsBoutiques
-      .filter((detail) => detail.status === "fulfilled")
-      .map((detail) => detail.value);
-    setDetailsBoutiques(filteredDetailsBoutiques);
-  };
+  useEffect(() => {
+    console.log(detailsBoutiques);
+  }, [detailsBoutiques]);
 
   return (
     <div>
@@ -195,7 +144,7 @@ function BuildMap({
         {detailsBoutiques.map((details, index) => (
           <Marker position={details.position} key={index}>
             <Popup>
-              <h3>{details.infoSupp.nom_boutique}</h3>
+              <h3>{details.name}</h3>
               <div style={styles.popupRating}>
                 <Rating
                   name="read-only"
@@ -261,7 +210,7 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
           borderColor: " yellow",
         }}
       >
-        <h3>{boutique.infoSupp.nom_boutique}</h3>
+        <h3>{boutique.name}</h3>
         <img src={photosBoutiques} style={{ marginBottom: "2rem" }}></img>
         <Button
           variant="contained"
@@ -305,7 +254,7 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
             </IconButton>
           </CardOverflow>
           <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-            {boutique.infoSupp.nom_boutique}
+            {boutique.name}
           </Typography>
           <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
             {boutique.address[0].long_name} {boutique.address[1].long_name}
@@ -355,36 +304,15 @@ function CarteBoutique({ boutique, handleBoutiqueSelect }) {
               bgcolor: "background.level1",
             }}
           >
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              {boutique.hours.weekday_text[0]}
-            </Typography>
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              {boutique.hours.weekday_text[1]}
-            </Typography>
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              {boutique.hours.weekday_text[2]}
-            </Typography>
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              {boutique.hours.weekday_text[4]}
-            </Typography>
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              {boutique.hours.weekday_text[5]}
-            </Typography>
+            {boutique.hours.weekday_text.map((day, index) => (
+              <Typography
+                key={index}
+                level="body3"
+                sx={{ fontWeight: "md", color: "text.secondary" }}
+              >
+                {day}
+              </Typography>
+            ))}
           </CardOverflow>
         </Card>
       </div>

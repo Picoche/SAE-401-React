@@ -13,8 +13,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import UserContext from "../UserContext";
-
 function Copyright(props) {
   return (
     <Typography
@@ -36,9 +34,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const { userContext } = useContext(UserContext);
-  console.log(userContext);
-
   const [user, setUser] = useState({});
 
   const updateData = (event) => {
@@ -203,7 +198,6 @@ export default function SignUp() {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-      <Typography>{userContext.id_user}</Typography>
     </ThemeProvider>
   );
 }

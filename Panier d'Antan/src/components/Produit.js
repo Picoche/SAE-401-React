@@ -69,7 +69,7 @@ export default function Produit({ id_boutique, id_produit }) {
   useEffect(() => {
     const getProduit = async () => {
       const response = await fetch(
-        `https://panier-antan.herokuapp.com/public/api/boutiques/${id_boutique}/produits/${id_produit}`
+        `https://panier-antan.mmicastres.fr/public/api/boutiques/${id_boutique}/produits/${id_produit}`
       );
       const data = await response.json();
       console.log(data);

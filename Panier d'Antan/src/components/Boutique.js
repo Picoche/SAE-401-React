@@ -29,12 +29,12 @@ import Favorite from "@mui/icons-material/Favorite";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Chip from "@mui/joy/Chip";
 
-import UserContext from "../UserContext";
+import { UserContext } from "../UserContext";
 
 export default function Boutique({ id }) {
   const navigate = useNavigate();
   const [favoriteList, setFavoriteList] = useState([]);
-  const { userContext } = useContext(UserContext);
+  // const { userContext } = useContext(UserContext);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const ViewProduit = useCallback(
@@ -59,7 +59,7 @@ export default function Boutique({ id }) {
   useEffect(() => {
     const getBoutique = async () => {
       const response = await fetch(
-        `https://panier-antan.herokuapp.com/public/api/boutiques/${id}/produits`
+        `https://panier-antan.mmicastres.fr/public/api/boutiques/${id}/produits`
       );
       const data = await response.json();
       console.log(data);
@@ -68,20 +68,20 @@ export default function Boutique({ id }) {
       setProduits(data.details ? Object.values(data.details) : []);
     };
     getBoutique();
-  }, [id]);
+  }, []);
 
   return (
     <div>
-      <div style={{
-        backgroundColor:"#F5F5F5"
-      }}>
+      <div
+        style={{
+          backgroundColor: "#F5F5F5",
+        }}
+      >
         <ThemeProvider theme={titre}>
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             {boutique.nom_boutique}
           </Typography>
-          <Typography>
-            {boutique.adresse_boutique}
-          </Typography>
+          <Typography>{boutique.adresse_boutique}</Typography>
         </ThemeProvider>
       </div>
       <Container

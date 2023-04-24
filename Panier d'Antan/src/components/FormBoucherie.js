@@ -10,13 +10,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-
-import UserContext from "../UserContext";
+import { UserContext } from "../UserContext";
 
 function Copyright(props) {
   return (
@@ -39,13 +38,12 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function FormBoucherie() {
-  const { userContext } = useContext(UserContext);
-  console.log(userContext);
+  // const { userContext } = useContext(UserContext);
+  // console.log(userContext);
 
   const [user, setUser] = useState({});
 
-  const [age, setAge] = React.useState('')
-
+  const [age, setAge] = React.useState("");
 
   const updateData = (event) => {
     setUser({
@@ -54,8 +52,7 @@ export default function FormBoucherie() {
     });
   };
 
-
-//--------------------------------- A REVOIR -------------------------------------------------------------------------------------
+  //--------------------------------- A REVOIR -------------------------------------------------------------------------------------
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,8 +74,7 @@ export default function FormBoucherie() {
     }
   };
 
-// ----------------------------------------------------------------------------------------------------------------------------------
-
+  // ----------------------------------------------------------------------------------------------------------------------------------
 
   return (
     <ThemeProvider theme={theme}>
@@ -92,7 +88,6 @@ export default function FormBoucherie() {
             alignItems: "center",
           }}
         >
-          
           <Typography component="h1" variant="h5">
             Ajouter un produit
           </Typography>
@@ -115,7 +110,7 @@ export default function FormBoucherie() {
                   onChange={updateData}
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -127,21 +122,21 @@ export default function FormBoucherie() {
                 />
               </Grid>
               <Grid item xs={12}>
-                                <FormControl fullWidth >
-                                    <InputLabel id="demo-simple-select-label">Tags</InputLabel>
-                                    <Select
-                                        labelId="tag_produit_boucherie"
-                                        id="tag_produit_boucherie"
-                                        value={age}
-                                        label="Tags"
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
+                <FormControl fullWidth>
+                  <InputLabel id="demo-simple-select-label">Tags</InputLabel>
+                  <Select
+                    labelId="tag_produit_boucherie"
+                    id="tag_produit_boucherie"
+                    value={age}
+                    label="Tags"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
