@@ -37,7 +37,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(data);
-    fetch("https://panier-antan.herokuapp.com/public/api/connexion", {
+    fetch("https://panier-antan.mmicastres.fr/public/api/connexion", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

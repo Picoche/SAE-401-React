@@ -63,12 +63,15 @@ export default function Boutique({ id }) {
       );
       const data = await response.json();
       console.log(data);
-      console.log(data.produits);
-      setBoutique(data.boutique);
-      setProduits(data.details ? Object.values(data.details) : []);
+      setBoutique(data[0].boutique);
+      setProduits(data);
     };
     getBoutique();
   }, []);
+
+  useEffect(() => {
+    // console.log(produits);
+  }, [produits]);
 
   return (
     <div>
@@ -91,14 +94,14 @@ export default function Boutique({ id }) {
           marginTop: "3rem",
         }}
       >
-        {produits?.map((produit, index) => (
+        {produits.map((produit, index) => (
           <Card variant="outlined" sx={{ width: 320 }} key={index}>
             <CardOverflow>
               <AspectRatio ratio="2">
                 <img
-                  src={produit.image_produit}
+                  src={produit.caracs?.info?.image_produit}
                   loading="lazy"
-                  alt={produit.description_produit}
+                  alt={produit.caracs?.info?.description_produit}
                 />
               </AspectRatio>
               <IconButton
@@ -116,7 +119,7 @@ export default function Boutique({ id }) {
                 }}
               >
                 <VisibilityIcon
-                  data-id={produit.id_produit}
+                  data-id={produit.caracs?.info?.id_produit}
                   onClick={ViewProduit}
                 />
               </IconButton>
@@ -138,10 +141,10 @@ export default function Boutique({ id }) {
               </IconButton>
             </CardOverflow>
             <Typography level="h2" fontSize="md" fontWeight="bold" mt={2}>
-              {produit.nom_produit}
+              {produit.caracs?.info?.nom_produit}
             </Typography>
             <Typography level="body2" sx={{ mt: 0.5, mb: 2 }}>
-              {produit.description_produit}
+              {produit.caracs?.info?.description_produit}
             </Typography>
             <Divider inset="context" />
             <CardOverflow
@@ -158,7 +161,7 @@ export default function Boutique({ id }) {
                 level="body3"
                 sx={{ fontWeight: "md", color: "text.primary" }}
               >
-                {produit.prix_produit} €
+                {produit.caracs?.info?.prix_produit} €
               </Typography>
               <Divider orientation="vertical" />
               <Chip>
@@ -166,7 +169,7 @@ export default function Boutique({ id }) {
                   level="body3"
                   sx={{ fontWeight: "md", color: "white" }}
                 >
-                  {produit.details.infos_type.provenance}
+                  {produit.caracs?.details_type?.provenance}
                 </Typography>
               </Chip>
               <Chip>
@@ -174,7 +177,7 @@ export default function Boutique({ id }) {
                   level="body3"
                   sx={{ fontWeight: "md", color: "white" }}
                 >
-                  {produit.details.tags[0].tag_produit_boucherie}
+                  {produit.caracs?.tags?.tag_produit}
                 </Typography>
               </Chip>
             </CardOverflow>
