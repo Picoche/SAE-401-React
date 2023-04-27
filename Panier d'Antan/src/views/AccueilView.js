@@ -54,7 +54,7 @@ export default function AccueilNCView() {
               </Typography>
             </ThemeProvider>
             {loggedIn ? (
-              <Link to="/carte">
+              <Link to="/cartes">
                 <Button
                   variant="contained"
                   className="button"
