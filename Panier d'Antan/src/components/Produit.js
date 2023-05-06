@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Typography,
   Grid,
   Button,
-  IconButton,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -73,8 +72,7 @@ export default function Produit({ id_boutique, id_produit }) {
       );
       const data = await response.json();
       console.log(data);
-      console.log(data.produit);
-      setProduit(data.produit);
+      setProduit(data);
     };
     getProduit();
   }, []);
@@ -89,25 +87,25 @@ export default function Produit({ id_boutique, id_produit }) {
       <Grid container spacing={4}>
         <Grid item xs={12} sm={6}>
           <img
-            src={produit.image_produit}
-            alt={produit.nom_produit}
+            src={produit.caracs?.info?.image_produit}
+            alt={produit.caracs?.info?.nom_produit}
             className={classes.productImage}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="h3" className={classes.productName}>
-            {produit.nom_produit}
+            {produit.caracs?.info?.nom_produit}
           </Typography>
           <Typography variant="body1" className={classes.productOrigin}>
-            Élevé à {produit.details?.infos_type?.provenance}
+            Élevé à {produit.caracs?.details_type?.provenance}
           </Typography>
           <div className={classes.productTags}>
             <Chip className={classes.tag} color="primary">
-              {produit.details?.tags[0]?.tag_produit_boucherie}
+              {produit.caracs?.tags?.tag_produit}
             </Chip>
           </div>
           <Typography variant="body1" className={classes.price}>
-            {produit.prix_produit} €
+            {produit.caracs?.info?.prix_produit} €
           </Typography>
           <Button
             variant="contained"
@@ -129,7 +127,7 @@ export default function Produit({ id_boutique, id_produit }) {
               Informations supplémentaires
             </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
-              {produit.infos_additionnelles}
+              {produit.caracs?.info?.infos_additionnelles}
             </AccordionDetails>
           </Accordion>
           <Accordion className={classes.accordion}>
@@ -142,7 +140,7 @@ export default function Produit({ id_boutique, id_produit }) {
               Description
             </AccordionSummary>
             <AccordionDetails className={classes.accordionDetails}>
-              {produit.description_produit}
+              {produit.caracs?.info?.description_produit}
             </AccordionDetails>
           </Accordion>
         </Grid>

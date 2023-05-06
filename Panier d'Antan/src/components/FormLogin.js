@@ -24,7 +24,7 @@ export default function SignIn() {
 
   const logInSuccess = useCallback((data) => {
     logIn(data.user);
-    navigate("/cartes");
+    navigate("/carte");
   }, []);
 
   const updateData = (event) => {
